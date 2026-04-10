@@ -1,0 +1,80 @@
+.app {
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
+  gap: 18px;
+}
+
+.header {
+  text-align: center;
+}
+
+.header h1 {
+  font-size: 24px;
+  font-weight: 700;
+  margin: 0 0 4px;
+  color: var(--text-h);
+}
+
+.subtitle {
+  font-size: 14px;
+  color: var(--text-2);
+  margin: 0;
+}
+
+.layout {
+  display: flex;
+  gap: 20px;
+  flex: 1;
+  align-items: flex-start;
+}
+
+.controls {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  padding-bottom: 8px;
+}
+
+.btnStart,
+.btnStop {
+  padding: 10px 32px;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: opacity 0.2s, transform 0.1s;
+}
+
+.btnStart:not(:disabled):active,
+.btnStop:not(:disabled):active {
+  transform: scale(0.97);
+}
+
+.btnStart {
+  background: var(--accent);
+  color: #fff;
+}
+
+.btnStop {
+  background: #ef4444;
+  color: #fff;
+}
+
+.btnStart:disabled,
+.btnStop:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+@media (max-width: 768px) {
+  .layout {
+    flex-direction: column;
+  }
+
+  .app {
+    padding: 16px;
+  }
+}

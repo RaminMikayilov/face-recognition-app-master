@@ -1,7 +1,8 @@
-import './App.css'
+import { FaceRecognitionApp } from './components/FaceRecognitionApp';
+import './App.css';
 
 function App() {
-  return <></>
+  return <FaceRecognitionApp />;
 }
 
-export default App
+export default App;

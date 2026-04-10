@@ -11,6 +11,14 @@ export async function loadFaceApiModels(onProgress) {
       name: 'Tiny Face Detector',
       load: () => faceapi.nets.tinyFaceDetector.loadFromUri(MODEL_URL),
     },
+    {
+      name: 'Face Landmarks',
+      load: () => faceapi.nets.faceLandmark68TinyNet.loadFromUri(MODEL_URL),
+    },
+    {
+      name: 'Face Recognition',
+      load: () => faceapi.nets.faceRecognitionNet.loadFromUri(MODEL_URL),
+    },
   ];
 
   for (let i = 0; i < models.length; i++) {

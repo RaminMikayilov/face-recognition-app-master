@@ -6,7 +6,7 @@ import { DetectionStats } from './DetectionStats';
 import { StatusBanner } from './StatusBanner';
 import styles from './FaceRecognitionApp.module.css';
 
-export function FaceRecognitionApp() {
+export function FaceRecognitionApp({ matcher }) {
   const canvasRef = useRef(null);
 
   const {
@@ -45,7 +45,7 @@ export function FaceRecognitionApp() {
 
       <div className={styles.layout}>
         <CameraView videoRef={videoRef} canvasRef={canvasRef} isActive={isActive} />
-        <DetectionStats detections={detections} fps={fps} />
+        <DetectionStats detections={detections} fps={fps} matcher={matcher} />
       </div>
 
       <div className={styles.controls}>

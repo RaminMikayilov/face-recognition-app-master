@@ -15,6 +15,11 @@ const BASE_URL =
 const FILES = [
   'tiny_face_detector_model-weights_manifest.json',
   'tiny_face_detector_model-shard1',
+  'face_landmark_68_tiny_model-weights_manifest.json',
+  'face_landmark_68_tiny_model-shard1',
+  'face_recognition_model-weights_manifest.json',
+  'face_recognition_model-shard1',
+  'face_recognition_model-shard2',
 ];
 
 async function download(filename) {

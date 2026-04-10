@@ -44,10 +44,10 @@ export function useFaceDetection(videoRef, canvasRef, isActive) {
     syncCanvasSize(canvas, video);
 
     try {
-      const results = await faceapi.detectAllFaces(
-        video,
-        new faceapi.TinyFaceDetectorOptions(DETECTION_OPTIONS)
-      );
+      const results = await faceapi
+        .detectAllFaces(video, new faceapi.TinyFaceDetectorOptions(DETECTION_OPTIONS))
+        .withFaceLandmarks(true)
+        .withFaceDescriptors();
 
       clearCanvas(canvas);
       drawFaceBoxes(canvas, results);

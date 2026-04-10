@@ -14,3 +14,5 @@ export const DRAW_OPTIONS = {
 };
 
 export const FPS_SAMPLE_WINDOW = 30;
+
+export const FACE_MATCH_THRESHOLD = 0.6;

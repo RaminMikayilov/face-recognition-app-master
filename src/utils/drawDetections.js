@@ -18,8 +18,9 @@ export function drawFaceBoxes(canvas, detections) {
   const { boxColor, boxLineWidth, labelFont, labelColor, labelBgColor } = DRAW_OPTIONS;
 
   detections.forEach((det, idx) => {
-    const { x, y, width, height } = det.box;
-    const score = (det.score * 100).toFixed(1);
+    const box = det.detection ? det.detection.box : det.box;
+    const score = ((det.detection ? det.detection.score : det.score) * 100).toFixed(1);
+    const { x, y, width, height } = box;
     const label = `Face ${idx + 1}  ${score}%`;
 
     ctx.strokeStyle = boxColor;

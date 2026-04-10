@@ -1,0 +1,1 @@
+export { RegisterFace } from './RegisterFace';

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import { loadFaceApiModels } from '../utils/faceApiLoader';
-import styles from './Layout.module.css'; // Reusing styles for consistency
+import { loadFaceApiModels } from '../../utils/faceApiLoader';
+import styles from '../Layout.module.css';
 
 export function ModelLoader({ children }) {
   const [modelsReady, setModelsReady] = useState(false);

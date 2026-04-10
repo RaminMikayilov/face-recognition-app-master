@@ -1,13 +1,13 @@
 import { useRef, useState } from 'react';
 import * as faceapi from 'face-api.js';
-import { useCamera, CAMERA_STATUS } from '../hooks/useCamera';
-import { DETECTION_OPTIONS } from '../constants/config';
+import { useCamera, CAMERA_STATUS } from '../../hooks/useCamera';
+import { DETECTION_OPTIONS } from '../../constants/config';
 import styles from './RegisterFace.module.css';
 
 export function RegisterFace({ onRegister }) {
   const { videoRef, status: cameraStatus, startCamera, stopCamera } = useCamera();
   const [name, setName] = useState('');
-  const [feedback, setFeedback] = useState(null); // { type: 'error'|'success', message }
+  const [feedback, setFeedback] = useState(null);
   const [capturing, setCapturing] = useState(false);
 
   const isCameraOn = cameraStatus === CAMERA_STATUS.ACTIVE;
@@ -64,13 +64,7 @@ export function RegisterFace({ onRegister }) {
       </div>
 
       <div className={styles.videoWrapper}>
-        <video
-          ref={videoRef}
-          className={styles.video}
-          autoPlay
-          muted
-          playsInline
-        />
+        <video ref={videoRef} className={styles.video} autoPlay muted playsInline />
         {!isCameraOn && (
           <div className={styles.placeholder}>
             <svg className={styles.placeholderIcon} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
@@ -90,26 +84,15 @@ export function RegisterFace({ onRegister }) {
 
       <div className={styles.actions}>
         {!isCameraOn ? (
-          <button
-            className={styles.btnPrimary}
-            onClick={startCamera}
-            disabled={!canOpenCamera}
-          >
+          <button className={styles.btnPrimary} onClick={startCamera} disabled={!canOpenCamera}>
             Open Camera
           </button>
         ) : (
           <>
-            <button
-              className={styles.btnSecondary}
-              onClick={stopCamera}
-            >
+            <button className={styles.btnSecondary} onClick={stopCamera}>
               Cancel
             </button>
-            <button
-              className={styles.btnPrimary}
-              onClick={handleSaveFace}
-              disabled={!canSave}
-            >
+            <button className={styles.btnPrimary} onClick={handleSaveFace} disabled={!canSave}>
               {capturing ? 'Saving...' : 'Save Face'}
             </button>
           </>

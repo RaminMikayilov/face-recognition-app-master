@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState, useCallback } from 'react';
 import * as faceapi from 'face-api.js';
-import { useCamera, CAMERA_STATUS } from '../hooks/useCamera';
-import { DETECTION_OPTIONS } from '../constants/config';
+import { useCamera, CAMERA_STATUS } from '../../hooks/useCamera';
+import { DETECTION_OPTIONS } from '../../constants/config';
 import styles from './LoginFace.module.css';
 
 const STATUS = {
@@ -33,10 +33,17 @@ export function LoginFace({ matcher, onLogin }) {
 
     lockedRef.current = false;
     faceSeenAtRef.current = null;
-    setMatchStatus(STATUS.LOOKING);
+    // statusInitialized flag avoids calling setState synchronously in the effect body
+    let statusInitialized = false;
 
     async function runFrame() {
       if (lockedRef.current) return;
+
+      // Set LOOKING status on the first frame (async, not synchronous in effect body)
+      if (!statusInitialized) {
+        statusInitialized = true;
+        setMatchStatus(STATUS.LOOKING);
+      }
 
       const video = videoRef.current;
       if (!video || video.readyState < 2) {
@@ -110,13 +117,7 @@ export function LoginFace({ matcher, onLogin }) {
       <p className={styles.subtitle}>Look at the camera to log in automatically.</p>
 
       <div className={styles.videoWrapper}>
-        <video
-          ref={videoRef}
-          className={styles.video}
-          autoPlay
-          muted
-          playsInline
-        />
+        <video ref={videoRef} className={styles.video} autoPlay muted playsInline />
         {overlayLabel && (
           <div className={`${styles.statusOverlay} ${overlayLabel.cls}`}>
             {overlayLabel.text}

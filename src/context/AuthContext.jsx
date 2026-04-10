@@ -1,6 +1,6 @@
-import { useState, useCallback, useMemo } from 'react';
+import { createContext, useContext, useState, useCallback, useMemo, useEffect } from 'react';
 import * as faceapi from 'face-api.js';
-import { getProfiles, saveProfile, hasProfiles } from '../utils/faceAuthStorage';
+import { getProfiles, saveProfile } from '../utils/faceAuthStorage';
 import { FACE_MATCH_THRESHOLD } from '../constants/config';
 
 export const AUTH_STATE = {
@@ -8,10 +8,11 @@ export const AUTH_STATE = {
   AUTHENTICATED: 'authenticated',
 };
 
-export function useFaceAuth() {
+const AuthContext = createContext(null);
+
+export function AuthProvider({ children }) {
   const [authState, setAuthState] = useState(AUTH_STATE.UNAUTHENTICATED);
   const [currentUser, setCurrentUser] = useState(null);
-  // Track profiles in state so components re-render when a new face is registered
   const [profiles, setProfiles] = useState(() => getProfiles());
 
   const matcher = useMemo(() => {
@@ -40,7 +41,7 @@ export function useFaceAuth() {
     setAuthState(AUTH_STATE.UNAUTHENTICATED);
   }, []);
 
-  return {
+  const value = {
     authState,
     currentUser,
     profiles,
@@ -50,4 +51,14 @@ export function useFaceAuth() {
     login,
     logout,
   };
+
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+}
+
+export function useAuth() {
+  const context = useContext(AuthContext);
+  if (!context) {
+    throw new Error('useAuth must be used within an AuthProvider');
+  }
+  return context;
 }

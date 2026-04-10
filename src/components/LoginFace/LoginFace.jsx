@@ -13,7 +13,8 @@ const STATUS = {
 };
 
 export function LoginFace({ matcher, onLogin }) {
-  const { videoRef, status: cameraStatus, startCamera } = useCamera();
+  const { videoRef, status: cameraStatus, startCamera, stopCamera } = useCamera();
+  const [scanning, setScanning] = useState(false);
   const [matchStatus, setMatchStatus] = useState(STATUS.IDLE);
   const [retryCount, setRetryCount] = useState(0);
   const rafRef = useRef(null);
@@ -22,24 +23,35 @@ export function LoginFace({ matcher, onLogin }) {
 
   const isCameraOn = cameraStatus === CAMERA_STATUS.ACTIVE;
 
-  // Auto-start camera on mount
-  useEffect(() => {
+  const handleStartScan = useCallback(() => {
+    setScanning(true);
+    setMatchStatus(STATUS.IDLE);
     startCamera();
   }, [startCamera]);
 
-  // Detection loop — re-runs on retry
+  const handleCancel = useCallback(() => {
+    lockedRef.current = true;
+    if (rafRef.current) {
+      cancelAnimationFrame(rafRef.current);
+      rafRef.current = null;
+    }
+    stopCamera();
+    setScanning(false);
+    setMatchStatus(STATUS.IDLE);
+    setRetryCount(0);
+  }, [stopCamera]);
+
+  // Detection loop — only runs when scanning is active
   useEffect(() => {
-    if (!isCameraOn || !matcher) return;
+    if (!scanning || !isCameraOn || !matcher) return;
 
     lockedRef.current = false;
     faceSeenAtRef.current = null;
-    // statusInitialized flag avoids calling setState synchronously in the effect body
     let statusInitialized = false;
 
     async function runFrame() {
       if (lockedRef.current) return;
 
-      // Set LOOKING status on the first frame (async, not synchronous in effect body)
       if (!statusInitialized) {
         statusInitialized = true;
         setMatchStatus(STATUS.LOOKING);
@@ -97,7 +109,7 @@ export function LoginFace({ matcher, onLogin }) {
         rafRef.current = null;
       }
     };
-  }, [isCameraOn, matcher, videoRef, onLogin, retryCount]);
+  }, [scanning, isCameraOn, matcher, videoRef, onLogin, retryCount]);
 
   const handleRetry = useCallback(() => {
     setRetryCount((n) => n + 1);
@@ -114,24 +126,54 @@ export function LoginFace({ matcher, onLogin }) {
   return (
     <div className={styles.wrapper}>
       <h2 className={styles.title}>Welcome Back</h2>
-      <p className={styles.subtitle}>Look at the camera to log in automatically.</p>
+      <p className={styles.subtitle}>
+        {scanning ? 'Look at the camera to log in.' : 'Click the button below to start face scan.'}
+      </p>
 
       <div className={styles.videoWrapper}>
         <video ref={videoRef} className={styles.video} autoPlay muted playsInline />
-        {overlayLabel && (
+
+        {!scanning && (
+          <div className={styles.placeholder}>
+            <svg className={styles.placeholderIcon} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M23 7l-7 5 7 5V7z" />
+              <rect x="1" y="5" width="15" height="14" rx="2" ry="2" />
+            </svg>
+            <span>Camera is off</span>
+          </div>
+        )}
+
+        {scanning && overlayLabel && (
           <div className={`${styles.statusOverlay} ${overlayLabel.cls}`}>
             {overlayLabel.text}
           </div>
         )}
       </div>
 
-      {matchStatus === STATUS.FAILED && (
-        <div className={styles.actions}>
-          <button className={styles.btnPrimary} onClick={handleRetry}>
-            Try Again
+      <div className={styles.actions}>
+        {!scanning && (
+          <button className={styles.btnPrimary} onClick={handleStartScan} disabled={!matcher}>
+            Login with Face
           </button>
-        </div>
-      )}
+        )}
+
+        {scanning && matchStatus === STATUS.FAILED && (
+          <>
+            <button className={styles.btnSecondary} onClick={handleCancel}>
+              Cancel
+            </button>
+            <button className={styles.btnPrimary} onClick={handleRetry}>
+              Try Again
+            </button>
+          </>
+        )}
+
+        {scanning && matchStatus !== STATUS.FAILED && matchStatus !== STATUS.SUCCESS && (
+          <button className={styles.btnSecondary} onClick={handleCancel}>
+            Cancel
+          </button>
+        )}
+      </div>
     </div>
   );
 }

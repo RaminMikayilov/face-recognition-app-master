@@ -1,16 +1,16 @@
-import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
-import { RegisterFace } from '../components/RegisterFace';
-import styles from '../components/Layout.module.css';
+import { Link, useNavigate } from 'react-router-dom'
+import { useAuth } from '../context/useAuth'
+import { RegisterFace } from '../components/RegisterFace'
+import styles from '../components/Layout.module.css'
 
 export function RegisterPage() {
-  const { register } = useAuth();
-  const navigate = useNavigate();
+  const { register } = useAuth()
+  const navigate = useNavigate()
 
   const handleRegister = (name, descriptor) => {
-    register(name, descriptor);
-    navigate('/dashboard');
-  };
+    register(name, descriptor)
+    navigate('/dashboard')
+  }
 
   return (
     <div className={styles.container}>
@@ -27,5 +27,5 @@ export function RegisterPage() {
         </p>
       </div>
     </div>
-  );
+  )
 }

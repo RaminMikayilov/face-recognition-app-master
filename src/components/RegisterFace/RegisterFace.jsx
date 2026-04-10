@@ -1,50 +1,53 @@
-import { useRef, useState } from 'react';
-import * as faceapi from 'face-api.js';
-import { useCamera, CAMERA_STATUS } from '../../hooks/useCamera';
-import { DETECTION_OPTIONS } from '../../constants/config';
-import styles from './RegisterFace.module.css';
+import { useState } from 'react'
+import * as faceapi from 'face-api.js'
+import { useCamera, CAMERA_STATUS } from '../../hooks/useCamera'
+import { DETECTION_OPTIONS } from '../../constants/config'
+import styles from './RegisterFace.module.css'
 
 export function RegisterFace({ onRegister }) {
-  const { videoRef, status: cameraStatus, startCamera, stopCamera } = useCamera();
-  const [name, setName] = useState('');
-  const [feedback, setFeedback] = useState(null);
-  const [capturing, setCapturing] = useState(false);
+  const { videoRef, status: cameraStatus, startCamera, stopCamera } = useCamera()
+  const [name, setName] = useState('')
+  const [feedback, setFeedback] = useState(null)
+  const [capturing, setCapturing] = useState(false)
 
-  const isCameraOn = cameraStatus === CAMERA_STATUS.ACTIVE;
+  const isCameraOn = cameraStatus === CAMERA_STATUS.ACTIVE
 
   async function handleSaveFace() {
-    const video = videoRef.current;
+    const video = videoRef.current
     if (!video || video.readyState < 2) {
-      setFeedback({ type: 'error', message: 'Camera not ready. Please wait.' });
-      return;
+      setFeedback({ type: 'error', message: 'Camera not ready. Please wait.' })
+      return
     }
 
-    setCapturing(true);
-    setFeedback(null);
+    setCapturing(true)
+    setFeedback(null)
 
     try {
       const result = await faceapi
         .detectSingleFace(video, new faceapi.TinyFaceDetectorOptions(DETECTION_OPTIONS))
         .withFaceLandmarks(true)
-        .withFaceDescriptor();
+        .withFaceDescriptor()
 
       if (!result) {
-        setFeedback({ type: 'error', message: 'No face detected. Center your face in the frame and try again.' });
-        return;
+        setFeedback({
+          type: 'error',
+          message: 'No face detected. Center your face in the frame and try again.',
+        })
+        return
       }
 
-      setFeedback({ type: 'success', message: `Face saved for "${name}"! Logging you in...` });
-      stopCamera();
-      setTimeout(() => onRegister(name.trim(), result.descriptor), 800);
+      setFeedback({ type: 'success', message: `Face saved for "${name}"! Logging you in...` })
+      stopCamera()
+      setTimeout(() => onRegister(name.trim(), result.descriptor), 800)
     } catch (err) {
-      setFeedback({ type: 'error', message: `Detection failed: ${err.message}` });
+      setFeedback({ type: 'error', message: `Detection failed: ${err.message}` })
     } finally {
-      setCapturing(false);
+      setCapturing(false)
     }
   }
 
-  const canSave = isCameraOn && name.trim().length > 0 && !capturing;
-  const canOpenCamera = !isCameraOn && name.trim().length > 0;
+  const canSave = isCameraOn && name.trim().length > 0 && !capturing
+  const canOpenCamera = !isCameraOn && name.trim().length > 0
 
   return (
     <div className={styles.wrapper}>
@@ -67,7 +70,15 @@ export function RegisterFace({ onRegister }) {
         <video ref={videoRef} className={styles.video} autoPlay muted playsInline />
         {!isCameraOn && (
           <div className={styles.placeholder}>
-            <svg className={styles.placeholderIcon} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+            <svg
+              className={styles.placeholderIcon}
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
               <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
               <circle cx="12" cy="7" r="4" />
             </svg>
@@ -99,5 +110,5 @@ export function RegisterFace({ onRegister }) {
         )}
       </div>
     </div>
-  );
+  )
 }

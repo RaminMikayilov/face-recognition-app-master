@@ -1,16 +1,16 @@
-import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
-import { LoginFace } from '../components/LoginFace';
-import styles from '../components/Layout.module.css';
+import { Link, useNavigate } from 'react-router-dom'
+import { useAuth } from '../context/useAuth'
+import { LoginFace } from '../components/LoginFace'
+import styles from '../components/Layout.module.css'
 
 export function LoginPage() {
-  const { matcher, login } = useAuth();
-  const navigate = useNavigate();
+  const { matcher, login } = useAuth()
+  const navigate = useNavigate()
 
   const handleLogin = (name) => {
-    login(name);
-    navigate('/dashboard');
-  };
+    login(name)
+    navigate('/dashboard')
+  }
 
   return (
     <div className={styles.container}>
@@ -27,5 +27,5 @@ export function LoginPage() {
         </p>
       </div>
     </div>
-  );
+  )
 }

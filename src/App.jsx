@@ -1,18 +1,20 @@
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { AuthProvider, useAuth, AUTH_STATE } from './context/AuthContext';
-import { ModelLoader } from './components/ModelLoader';
-import { ProtectedRoute } from './components/ProtectedRoute';
-import { LoginPage } from './pages/LoginPage';
-import { RegisterPage } from './pages/RegisterPage';
-import { DashboardPage } from './pages/DashboardPage';
-import './App.css';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
+import { AuthProvider } from './context/AuthContext.jsx'
+import { useAuth } from './context/useAuth'
+import { AUTH_STATE } from './context/authState'
+import { ModelLoader } from './components/ModelLoader'
+import { ProtectedRoute } from './components/ProtectedRoute'
+import { LoginPage } from './pages/LoginPage'
+import { RegisterPage } from './pages/RegisterPage'
+import { DashboardPage } from './pages/DashboardPage'
+import './App.css'
 
 function RootRedirect() {
-  const { authState } = useAuth();
+  const { authState } = useAuth()
   if (authState === AUTH_STATE.AUTHENTICATED) {
-    return <Navigate to="/dashboard" replace />;
+    return <Navigate to="/dashboard" replace />
   }
-  return <Navigate to="/login" replace />;
+  return <Navigate to="/login" replace />
 }
 
 function App() {
@@ -38,7 +40,7 @@ function App() {
         </Router>
       </ModelLoader>
     </AuthProvider>
-  );
+  )
 }
 
-export default App;
+export default App

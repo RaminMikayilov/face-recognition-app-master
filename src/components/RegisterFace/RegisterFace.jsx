@@ -1,9 +1,9 @@
 import { useState } from 'react'
 import * as faceapi from 'face-api.js'
 import { useCamera, CAMERA_STATUS } from '../../hooks/useCamera'
-import { DETECTION_OPTIONS } from '../../constants/config'
+import { DETECTION_OPTIONS, FACE_MATCH_THRESHOLD } from '../../constants/config'
 import styles from './RegisterFace.module.css'
-import { isNameTaken } from '../../utils/faceAuthStorage'
+import { isNameTaken, getMatchingProfile } from '../../utils/faceAuthStorage'
 
 export function RegisterFace({ onRegister }) {
   const { videoRef, status: cameraStatus, startCamera, stopCamera } = useCamera()
@@ -33,6 +33,15 @@ export function RegisterFace({ onRegister }) {
         setFeedback({
           type: 'error',
           message: 'No face detected. Center your face in the frame and try again.',
+        })
+        return
+      }
+
+      const existingName = getMatchingProfile(result.descriptor, FACE_MATCH_THRESHOLD)
+      if (existingName) {
+        setFeedback({
+          type: 'error',
+          message: `This face is already registered as "${existingName}". Please log in instead.`,
         })
         return
       }

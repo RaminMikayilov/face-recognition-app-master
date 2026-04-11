@@ -33,6 +33,17 @@ export function isNameTaken(name) {
   return getProfiles().some((p) => p.name === name);
 }
 
+export function getMatchingProfile(descriptor, threshold) {
+  const profiles = getProfiles();
+  for (const p of profiles) {
+    const dist = Math.sqrt(
+      descriptor.reduce((sum, val, i) => sum + (val - p.descriptor[i]) ** 2, 0)
+    );
+    if (dist < threshold) return p.name;
+  }
+  return null;
+}
+
 export function deleteProfile(name) {
   const profiles = getProfiles().filter((p) => p.name !== name);
   localStorage.setItem(

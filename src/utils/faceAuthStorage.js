@@ -29,6 +29,10 @@ export function saveProfile(name, descriptor) {
   );
 }
 
+export function isNameTaken(name) {
+  return getProfiles().some((p) => p.name === name);
+}
+
 export function deleteProfile(name) {
   const profiles = getProfiles().filter((p) => p.name !== name);
   localStorage.setItem(

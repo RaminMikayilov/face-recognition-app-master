@@ -3,6 +3,7 @@ import * as faceapi from 'face-api.js'
 import { useCamera, CAMERA_STATUS } from '../../hooks/useCamera'
 import { DETECTION_OPTIONS } from '../../constants/config'
 import styles from './RegisterFace.module.css'
+import { isNameTaken } from '../../utils/faceAuthStorage'
 
 export function RegisterFace({ onRegister }) {
   const { videoRef, status: cameraStatus, startCamera, stopCamera } = useCamera()
@@ -48,6 +49,18 @@ export function RegisterFace({ onRegister }) {
 
   const canSave = isCameraOn && name.trim().length > 0 && !capturing
   const canOpenCamera = !isCameraOn && name.trim().length > 0
+
+  function handleOpenCamera() {
+    if (isNameTaken(name.trim())) {
+      setFeedback({
+        type: 'error',
+        message: 'This name is already registered. Please use a different name.',
+      })
+      return
+    }
+    setFeedback(null)
+    startCamera()
+  }
 
   return (
     <div className={styles.wrapper}>
@@ -95,7 +108,7 @@ export function RegisterFace({ onRegister }) {
 
       <div className={styles.actions}>
         {!isCameraOn ? (
-          <button className={styles.btnPrimary} onClick={startCamera} disabled={!canOpenCamera}>
+          <button className={styles.btnPrimary} onClick={handleOpenCamera} disabled={!canOpenCamera}>
             Open Camera
           </button>
         ) : (

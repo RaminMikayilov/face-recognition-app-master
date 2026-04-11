@@ -27,7 +27,7 @@
   position: relative;
   width: 100%;
   aspect-ratio: 4 / 3;
-  background: #0d0d14;
+  background: #252537;
   border-radius: 12px;
   overflow: hidden;
   border: 1px solid var(--border);
@@ -57,47 +57,21 @@
 
 .faceGuide.looking {
   border-color: var(--accent);
-  box-shadow: 0 0 20px var(--accent-bg);
 }
 
 .faceGuide.verifying {
-  border-color: #63b3ed;
+  border-color: #60a5fa;
   border-style: solid;
-  box-shadow: 0 0 30px rgba(99, 179, 237, 0.4);
 }
 
 .faceGuide.success {
-  border-color: #00ff88;
+  border-color: #4ade80;
   border-style: solid;
-  box-shadow: 0 0 30px rgba(0, 255, 136, 0.4);
 }
 
 .faceGuide.failed {
   border-color: #f87171;
   border-style: solid;
-  box-shadow: 0 0 30px rgba(248, 113, 113, 0.4);
-}
-
-.scanLine {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: linear-gradient(to right, transparent, var(--accent), transparent);
-  animation: scan 2.5s linear infinite;
-  opacity: 0;
-  transition: opacity 0.3s;
-}
-
-.scanning .scanLine {
-  opacity: 1;
-}
-
-@keyframes scan {
-  0% { top: 10%; }
-  50% { top: 90%; }
-  100% { top: 10%; }
 }
 
 .statusOverlay {
@@ -114,9 +88,9 @@
   z-index: 20;
 }
 
-.statusVerifying { color: #63b3ed; }
-.statusLooking  { color: #888; }
-.statusSuccess  { color: #00ff88; }
+.statusVerifying { color: #60a5fa; }
+.statusLooking  { color: var(--text); }
+.statusSuccess  { color: #4ade80; }
 .statusFailed   { color: #f87171; }
 
 .actions {

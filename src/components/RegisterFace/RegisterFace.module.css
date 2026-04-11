@@ -50,7 +50,7 @@
   position: relative;
   width: 100%;
   aspect-ratio: 4 / 3;
-  background: #0d0d14;
+  background: #252537;
   border-radius: 12px;
   overflow: hidden;
   border: 1px solid var(--border);
@@ -80,35 +80,11 @@
 
 .faceGuide.active {
   border-color: var(--accent);
-  box-shadow: 0 0 20px var(--accent-bg);
 }
 
 .faceGuide.capturing {
-  border-color: #63b3ed;
+  border-color: #60a5fa;
   border-style: solid;
-  box-shadow: 0 0 30px rgba(99, 179, 237, 0.4);
-}
-
-.scanLine {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: linear-gradient(to right, transparent, var(--accent), transparent);
-  animation: scan 2.5s linear infinite;
-  opacity: 0;
-  transition: opacity 0.3s;
-}
-
-.capturing .scanLine {
-  opacity: 1;
-}
-
-@keyframes scan {
-  0% { top: 10%; }
-  50% { top: 90%; }
-  100% { top: 10%; }
 }
 
 .placeholder {
@@ -177,10 +153,10 @@
 
 .success {
   font-size: 13px;
-  color: #00ff88;
+  color: #4ade80;
   text-align: center;
-  background: rgba(0, 255, 136, 0.08);
-  border: 1px solid rgba(0, 255, 136, 0.2);
+  background: rgba(74, 222, 128, 0.08);
+  border: 1px solid rgba(74, 222, 128, 0.2);
   border-radius: 6px;
   padding: 8px 12px;
   width: 100%;

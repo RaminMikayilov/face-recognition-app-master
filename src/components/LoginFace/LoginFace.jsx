@@ -117,10 +117,10 @@ export function LoginFace({ matcher, onLogin }) {
 
   const overlayLabel = {
     [STATUS.IDLE]: null,
-    [STATUS.LOOKING]: { text: 'Looking for face...', cls: styles.statusLooking },
-    [STATUS.VERIFYING]: { text: 'Verifying...', cls: styles.statusVerifying },
-    [STATUS.SUCCESS]: { text: 'Face recognized!', cls: styles.statusSuccess },
-    [STATUS.FAILED]: { text: 'Face not recognized', cls: styles.statusFailed },
+    [STATUS.LOOKING]: { text: 'Align face within guide...', cls: styles.statusLooking, guideCls: styles.looking },
+    [STATUS.VERIFYING]: { text: 'Scanning...', cls: styles.statusVerifying, guideCls: styles.verifying },
+    [STATUS.SUCCESS]: { text: 'Welcome back!', cls: styles.statusSuccess, guideCls: styles.success },
+    [STATUS.FAILED]: { text: 'Could not verify face', cls: styles.statusFailed, guideCls: styles.failed },
   }[matchStatus];
 
   return (
@@ -130,8 +130,14 @@ export function LoginFace({ matcher, onLogin }) {
         {scanning ? 'Look at the camera to log in.' : 'Click the button below to start face scan.'}
       </p>
 
-      <div className={styles.videoWrapper}>
+      <div className={`${styles.videoWrapper} ${scanning ? styles.scanning : ''}`}>
         <video ref={videoRef} className={styles.video} autoPlay muted playsInline />
+
+        {scanning && (
+          <div className={`${styles.faceGuide} ${overlayLabel?.guideCls || ''}`}>
+            <div className={styles.scanLine} />
+          </div>
+        )}
 
         {!scanning && (
           <div className={styles.placeholder}>

@@ -29,13 +29,21 @@ export function ModelLoader({ children }) {
   }
 
   if (!modelsReady) {
+    const progress = loadStep ? (loadStep.step / loadStep.total) * 100 : 0;
     const label = loadStep
-      ? `Loading model ${loadStep.step}/${loadStep.total}: ${loadStep.name}...`
-      : 'Loading face detection models...';
+      ? `Initializing face detection: ${loadStep.name}`
+      : 'Loading system models...';
+    
     return (
       <div className={styles.loading}>
         <div className={styles.spinner} />
-        <span>{label}</span>
+        <span className={styles.loadingText}>{label}</span>
+        <div className={styles.progressContainer}>
+          <div 
+            className={styles.progressBar} 
+            style={{ width: `${progress}%` }} 
+          />
+        </div>
       </div>
     );
   }

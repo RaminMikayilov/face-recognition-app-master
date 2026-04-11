@@ -88,8 +88,15 @@ export function RegisterFace({ onRegister }) {
         />
       </div>
 
-      <div className={styles.videoWrapper}>
+      <div className={`${styles.videoWrapper} ${capturing ? styles.capturing : ''}`}>
         <video ref={videoRef} className={styles.video} autoPlay muted playsInline />
+        
+        {isCameraOn && (
+          <div className={`${styles.faceGuide} ${capturing ? styles.capturing : styles.active}`}>
+            <div className={styles.scanLine} />
+          </div>
+        )}
+
         {!isCameraOn && (
           <div className={styles.placeholder}>
             <svg

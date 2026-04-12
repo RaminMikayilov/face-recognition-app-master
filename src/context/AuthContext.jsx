@@ -1,6 +1,6 @@
 import { useState, useCallback, useMemo } from 'react'
 import * as faceapi from 'face-api.js'
-import { getProfiles, saveProfile } from '../utils/faceAuthStorage'
+import { getProfiles, saveProfile, deleteProfile } from '../utils/faceAuthStorage'
 import { FACE_MATCH_THRESHOLD } from '../constants/config'
 import { AuthContext } from './authContext'
 import { AUTH_STATE } from './authState'
@@ -34,6 +34,16 @@ export function AuthProvider({ children }) {
     setAuthState(AUTH_STATE.UNAUTHENTICATED)
   }, [])
 
+  const removeProfile = useCallback((name) => {
+    deleteProfile(name)
+    const updated = getProfiles()
+    setProfiles(updated)
+    if (currentUser === name) {
+      setCurrentUser(null)
+      setAuthState(AUTH_STATE.UNAUTHENTICATED)
+    }
+  }, [currentUser])
+
   const value = {
     authState,
     currentUser,
@@ -43,6 +53,7 @@ export function AuthProvider({ children }) {
     register,
     login,
     logout,
+    removeProfile,
   }
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>

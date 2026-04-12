@@ -1,8 +1,32 @@
+import { useState } from 'react'
 import { useAuth } from '../context/useAuth'
 import styles from '../components/Layout.module.css'
 
+const deleteBtnStyle = {
+  color: '#f87171',
+  background: 'rgba(248, 113, 113, 0.08)',
+  border: '1px solid rgba(248, 113, 113, 0.2)',
+  borderRadius: '6px',
+  padding: '5px 12px',
+  fontSize: '13px',
+  cursor: 'pointer',
+  fontWeight: 500,
+}
+
+const cancelBtnStyle = {
+  color: 'var(--text)',
+  background: 'transparent',
+  border: '1px solid var(--border)',
+  borderRadius: '6px',
+  padding: '5px 12px',
+  fontSize: '13px',
+  cursor: 'pointer',
+  fontWeight: 500,
+}
+
 export function DashboardPage() {
-  const { currentUser, logout } = useAuth()
+  const { currentUser, logout, profiles, removeProfile } = useAuth()
+  const [confirmDelete, setConfirmDelete] = useState(null)
 
   return (
     <div style={{ width: '100%', minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
@@ -47,10 +71,10 @@ export function DashboardPage() {
               alignItems: 'center',
               gap: '6px',
               padding: '6px 12px',
-              background: 'rgba(0, 255, 136, 0.1)',
-              border: '1px solid rgba(0, 255, 136, 0.2)',
+              background: 'rgba(74, 222, 128, 0.1)',
+              border: '1px solid rgba(74, 222, 128, 0.2)',
               borderRadius: '20px',
-              color: '#00ff88',
+              color: '#4ade80',
               fontSize: '12px',
               fontWeight: '600',
             }}
@@ -64,7 +88,7 @@ export function DashboardPage() {
           <h1 style={{ fontSize: '32px', marginBottom: '16px', color: 'var(--text-h)' }}>
             Welcome, {currentUser}
           </h1>
-          <p style={{ color: 'var(--text-2)', fontSize: '18px', marginBottom: '32px' }}>
+          <p style={{ color: 'var(--text)', fontSize: '18px', marginBottom: '32px' }}>
             You have successfully authenticated using your unique biometric profile.
           </p>
 
@@ -72,15 +96,15 @@ export function DashboardPage() {
             style={{
               marginTop: '40px',
               padding: '24px',
-              background: 'rgba(0, 255, 136, 0.05)',
-              border: '1px dashed #00ff88',
+              background: 'rgba(74, 222, 128, 0.05)',
+              border: '1px solid rgba(74, 222, 128, 0.3)',
               borderRadius: '12px',
               textAlign: 'left',
             }}
           >
             <h2
               style={{
-                color: '#00ff88',
+                color: '#4ade80',
                 fontSize: '16px',
                 marginBottom: '8px',
                 textTransform: 'uppercase',
@@ -96,13 +120,55 @@ export function DashboardPage() {
               </svg>
               Secure Vault
             </h2>
-            <p style={{ color: 'var(--text-2)', fontSize: '14px', margin: 0, lineHeight: '1.6' }}>
-              Your biometric data is encrypted and stored locally in your browser's secure storage. 
+            <p style={{ color: 'var(--text)', fontSize: '14px', margin: 0, lineHeight: '1.6' }}>
+              Your biometric data is encrypted and stored locally in your browser's secure storage.
               No facial images are ever uploaded to a server, ensuring your privacy remains 100% intact.
             </p>
           </div>
         </div>
-        
+
+        <div style={{ maxWidth: '600px', width: '100%', marginTop: '24px', textAlign: 'left' }}>
+          <h2 style={{ fontSize: '15px', color: 'var(--text)', marginBottom: '12px', fontWeight: 600 }}>
+            Registered Profiles ({profiles.length})
+          </h2>
+          {profiles.map((p) => (
+            <div
+              key={p.name}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                padding: '12px 16px',
+                background: 'rgba(255, 255, 255, 0.02)',
+                border: '1px solid var(--border)',
+                borderRadius: '8px',
+                marginBottom: '8px',
+              }}
+            >
+              <span style={{ color: 'var(--text-h)', fontSize: '14px', fontWeight: 500 }}>
+                {p.name}{p.name === currentUser ? ' (you)' : ''}
+              </span>
+              {confirmDelete === p.name ? (
+                <div style={{ display: 'flex', gap: '8px' }}>
+                  <button style={cancelBtnStyle} onClick={() => setConfirmDelete(null)}>
+                    Cancel
+                  </button>
+                  <button
+                    style={deleteBtnStyle}
+                    onClick={() => { removeProfile(p.name); setConfirmDelete(null) }}
+                  >
+                    Confirm delete
+                  </button>
+                </div>
+              ) : (
+                <button style={deleteBtnStyle} onClick={() => setConfirmDelete(p.name)}>
+                  Delete
+                </button>
+              )}
+            </div>
+          ))}
+        </div>
+
         <style>{`
           @keyframes fadeIn {
             from { opacity: 0; transform: translateY(10px); }

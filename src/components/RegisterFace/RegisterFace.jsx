@@ -4,8 +4,11 @@ import { useCamera, CAMERA_STATUS } from '../../hooks/useCamera'
 import { DETECTION_OPTIONS, FACE_MATCH_THRESHOLD } from '../../constants/config'
 import styles from './RegisterFace.module.css'
 import { isNameTaken, getMatchingProfile } from '../../utils/faceAuthStorage'
+import LanguageSelector from '../LanguageSelector'
+import { useTranslation } from 'react-i18next'
 
 export function RegisterFace({ onRegister }) {
+  const {t} = useTranslation();
   const { videoRef, status: cameraStatus, startCamera, stopCamera } = useCamera()
   const [name, setName] = useState('')
   const [feedback, setFeedback] = useState(null)
@@ -16,7 +19,7 @@ export function RegisterFace({ onRegister }) {
   async function handleSaveFace() {
     const video = videoRef.current
     if (!video || video.readyState < 2) {
-      setFeedback({ type: 'error', message: 'Camera not ready. Please wait.' })
+      setFeedback({ type: 'error', message: t("cameraNotReady")})
       return
     }
 
@@ -32,7 +35,7 @@ export function RegisterFace({ onRegister }) {
       if (!result) {
         setFeedback({
           type: 'error',
-          message: 'No face detected. Center your face in the frame and try again.',
+          message: t("noFaceDetected"),
         })
         return
       }
@@ -41,16 +44,16 @@ export function RegisterFace({ onRegister }) {
       if (existingName) {
         setFeedback({
           type: 'error',
-          message: `This face is already registered as "${existingName}". Please log in instead.`,
+          message: t("faceAlreadyRegistered", { name: existingName }),
         })
         return
       }
 
-      setFeedback({ type: 'success', message: `Face saved for "${name}"! Logging you in...` })
+      setFeedback({ type: 'success', message: t("faceSaved", { name: name.trim() }) })
       stopCamera()
       setTimeout(() => onRegister(name.trim(), result.descriptor), 800)
     } catch (err) {
-      setFeedback({ type: 'error', message: `Detection failed: ${err.message}` })
+      setFeedback({ type: 'error',message: t("detectionFailed", { error: err.message }),})
     } finally {
       setCapturing(false)
     }
@@ -63,7 +66,7 @@ export function RegisterFace({ onRegister }) {
     if (isNameTaken(name.trim())) {
       setFeedback({
         type: 'error',
-        message: 'This name is already registered. Please use a different name.',
+        message: t("nameAlreadyRegistered"),
       })
       return
     }
@@ -73,14 +76,14 @@ export function RegisterFace({ onRegister }) {
 
   return (
     <div className={styles.wrapper}>
-      <h2 className={styles.title}>Register Your Face</h2>
-      <p className={styles.subtitle}>Enter your name, open the camera, then click Save Face.</p>
+      <h2 className={styles.title}>{t("registerYourFace")}</h2>
+      <p className={styles.subtitle}>{t("enterYourNameOpenCamera")}</p>
 
       <div className={styles.form}>
         <input
           className={styles.input}
           type="text"
-          placeholder="Your name"
+          placeholder={t("yourName")}
           value={name}
           onChange={(e) => setName(e.target.value)}
           maxLength={40}
@@ -111,7 +114,7 @@ export function RegisterFace({ onRegister }) {
               <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
               <circle cx="12" cy="7" r="4" />
             </svg>
-            <span>Camera off</span>
+            <span>{t("cameraOff")}</span>
           </div>
         )}
       </div>
@@ -125,18 +128,20 @@ export function RegisterFace({ onRegister }) {
       <div className={styles.actions}>
         {!isCameraOn ? (
           <button className={styles.btnPrimary} onClick={handleOpenCamera} disabled={!canOpenCamera}>
-            Open Camera
+            {t("openCamera")}
           </button>
+            
         ) : (
           <>
             <button className={styles.btnSecondary} onClick={stopCamera}>
-              Cancel
+              {t("cancel")}
             </button>
             <button className={styles.btnPrimary} onClick={handleSaveFace} disabled={!canSave}>
-              {capturing ? 'Saving...' : 'Save Face'}
+              {capturing ? t('saving') : t('saveFace')}
             </button>
           </>
         )}
+        <LanguageSelector />
       </div>
     </div>
   )

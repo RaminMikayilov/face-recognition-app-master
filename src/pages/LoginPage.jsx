@@ -2,10 +2,12 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/useAuth'
 import { LoginFace } from '../components/LoginFace'
 import styles from '../components/Layout.module.css'
+import { useTranslation } from 'react-i18next'
 
 export function LoginPage() {
   const { matcher, login } = useAuth()
   const navigate = useNavigate()
+  const {t} = useTranslation();
 
   const handleLogin = (name) => {
     login(name)
@@ -15,15 +17,15 @@ export function LoginPage() {
   return (
     <div className={styles.container}>
       <div className={styles.appHeader}>
-        <h1>Face Recognition</h1>
-        <p>Authenticate with your face to continue</p>
+        <h1>{t("faceRecognition")}</h1>
+        <p>{t("authenticateWithFace")}</p>
       </div>
 
       <LoginFace matcher={matcher} onLogin={handleLogin} />
 
       <div style={{ marginTop: '20px', textAlign: 'center' }}>
         <p>
-          Don't have a profile? <Link to="/register">Register here</Link>
+          {t("dontHaveProfile")} <Link to="/register">{t("registerHere")}</Link>
         </p>
       </div>
     </div>

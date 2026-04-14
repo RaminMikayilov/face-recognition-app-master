@@ -3,6 +3,8 @@ import * as faceapi from 'face-api.js';
 import { useCamera, CAMERA_STATUS } from '../../hooks/useCamera';
 import { DETECTION_OPTIONS } from '../../constants/config';
 import styles from './LoginFace.module.css';
+import { useTranslation } from 'react-i18next';
+import LanguageSelector from '../LanguageSelector.jsx';
 
 const STATUS = {
   IDLE: 'idle',
@@ -13,6 +15,7 @@ const STATUS = {
 };
 
 export function LoginFace({ matcher, onLogin }) {
+  const { t } = useTranslation();
   const { videoRef, status: cameraStatus, startCamera, stopCamera } = useCamera();
   const [scanning, setScanning] = useState(false);
   const [matchStatus, setMatchStatus] = useState(STATUS.IDLE);
@@ -125,9 +128,9 @@ export function LoginFace({ matcher, onLogin }) {
 
   return (
     <div className={styles.wrapper}>
-      <h2 className={styles.title}>Welcome Back</h2>
+      <h2 className={styles.title}>{t("welcomeBack")}</h2>
       <p className={styles.subtitle}>
-        {scanning ? 'Look at the camera to log in.' : 'Click the button below to start face scan.'}
+        {scanning ? t("lookAtCamera") : t("startFaceScan")}
       </p>
 
       <div className={`${styles.videoWrapper} ${scanning ? styles.scanning : ''}`}>
@@ -145,7 +148,7 @@ export function LoginFace({ matcher, onLogin }) {
               <path d="M23 7l-7 5 7 5V7z" />
               <rect x="1" y="5" width="15" height="14" rx="2" ry="2" />
             </svg>
-            <span>Camera is off</span>
+            <span>{t("cameraOff")} </span>
           </div>
         )}
 
@@ -159,26 +162,27 @@ export function LoginFace({ matcher, onLogin }) {
       <div className={styles.actions}>
         {!scanning && (
           <button className={styles.btnPrimary} onClick={handleStartScan} disabled={!matcher}>
-            Login with Face
+            {t("loginWithFace")}
           </button>
         )}
 
         {scanning && matchStatus === STATUS.FAILED && (
           <>
             <button className={styles.btnSecondary} onClick={handleCancel}>
-              Cancel
+              {t("cancel")}
             </button>
             <button className={styles.btnPrimary} onClick={handleRetry}>
-              Try Again
+              {t("tryAgain")}
             </button>
           </>
         )}
 
         {scanning && matchStatus !== STATUS.FAILED && matchStatus !== STATUS.SUCCESS && (
           <button className={styles.btnSecondary} onClick={handleCancel}>
-            Cancel
+            {t("cancel")}
           </button>
         )}
+        <LanguageSelector />
       </div>
     </div>
   );

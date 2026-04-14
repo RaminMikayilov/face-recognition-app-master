@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import { useAuth } from '../context/useAuth'
 import styles from '../components/Layout.module.css'
+import { useTranslation } from 'react-i18next'
+import LanguageSelector from '../components/LanguageSelector';
 
 const deleteBtnStyle = {
   color: '#f87171',
@@ -27,13 +29,14 @@ const cancelBtnStyle = {
 export function DashboardPage() {
   const { currentUser, logout, profiles, removeProfile } = useAuth()
   const [confirmDelete, setConfirmDelete] = useState(null)
+  const {t} = useTranslation();
 
   return (
     <div style={{ width: '100%', minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
       <div className={styles.userBanner}>
-        <span className={styles.welcomeText}>Logged in as: {currentUser}</span>
+        <span className={styles.welcomeText}>{t("loggedInAs")}: {currentUser}</span>
         <button className={styles.btnLogout} onClick={logout}>
-          Log Out
+          {t("logOut")}
         </button>
       </div>
 
@@ -82,14 +85,15 @@ export function DashboardPage() {
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
               <path d="M20 6L9 17l-5-5" />
             </svg>
-            FACE ID VERIFIED
+            {t("faceIdVerified")}
+            
           </div>
 
           <h1 style={{ fontSize: '32px', marginBottom: '16px', color: 'var(--text-h)' }}>
-            Welcome, {currentUser}
+            {t("welcomeUser")}, {currentUser}
           </h1>
           <p style={{ color: 'var(--text)', fontSize: '18px', marginBottom: '32px' }}>
-            You have successfully authenticated using your unique biometric profile.
+            {t("authSuccessMessage")}
           </p>
 
           <div
@@ -118,19 +122,20 @@ export function DashboardPage() {
                 <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
                 <path d="M7 11V7a5 5 0 0 1 10 0v4" />
               </svg>
-              Secure Vault
+              {t("secureVault")}
             </h2>
             <p style={{ color: 'var(--text)', fontSize: '14px', margin: 0, lineHeight: '1.6' }}>
-              Your biometric data is encrypted and stored locally in your browser's secure storage.
-              No facial images are ever uploaded to a server, ensuring your privacy remains 100% intact.
+              {t("biometricSecurityInfo")}
             </p>
           </div>
         </div>
 
         <div style={{ maxWidth: '600px', width: '100%', marginTop: '24px', textAlign: 'left' }}>
-          <h2 style={{ fontSize: '15px', color: 'var(--text)', marginBottom: '12px', fontWeight: 600 }}>
-            Registered Profiles ({profiles.length})
+          <div style={{display:"flex",justifyContent:"space-between",marginBottom:"10px"}}><h2 style={{ fontSize: '15px', color: 'var(--text)', marginBottom: '12px', fontWeight: 600 }}>
+            {t("registeredProfiles")} ({profiles.length}) 
           </h2>
+          <LanguageSelector/>
+          </div>
           {profiles.map((p) => (
             <div
               key={p.name}
@@ -146,23 +151,23 @@ export function DashboardPage() {
               }}
             >
               <span style={{ color: 'var(--text-h)', fontSize: '14px', fontWeight: 500 }}>
-                {p.name}{p.name === currentUser ? ' (you)' : ''}
+                {p.name}{p.name === currentUser ?` (${t("you")})`: ''}
               </span>
               {confirmDelete === p.name ? (
                 <div style={{ display: 'flex', gap: '8px' }}>
                   <button style={cancelBtnStyle} onClick={() => setConfirmDelete(null)}>
-                    Cancel
+                    {t("cancel")}
                   </button>
                   <button
                     style={deleteBtnStyle}
                     onClick={() => { removeProfile(p.name); setConfirmDelete(null) }}
                   >
-                    Confirm delete
+                    {"confirmDelete"}
                   </button>
                 </div>
               ) : (
                 <button style={deleteBtnStyle} onClick={() => setConfirmDelete(p.name)}>
-                  Delete
+                  {t("delete")}
                 </button>
               )}
             </div>

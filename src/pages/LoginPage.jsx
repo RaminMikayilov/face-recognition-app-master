@@ -3,6 +3,8 @@ import { useAuth } from '../context/useAuth'
 import { LoginFace } from '../components/LoginFace'
 import styles from '../components/Layout.module.css'
 import { useTranslation } from 'react-i18next'
+import ThemeToggle from '../components/ThemeToggle'
+import LanguageSelector from '../components/LanguageSelector'
 
 export function LoginPage() {
   const { matcher, login } = useAuth()
@@ -19,6 +21,10 @@ export function LoginPage() {
       <header className={styles.appHeader}>
         <h1>{t("faceRecognition")}</h1>
         <p>{t("authenticateWithFace")}</p>
+        <div className={styles.actions}>
+          <ThemeToggle />
+          <LanguageSelector />
+        </div>
       </header>
 
       <LoginFace matcher={matcher} onLogin={handleLogin} />

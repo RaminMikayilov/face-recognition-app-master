@@ -117,7 +117,7 @@ export default function LanguageSelector() {
           style={{
             position: 'absolute',
             right: 0,
-            bottom: '150%',
+            top: '150%',
             background: 'var(--dropdown-bg)',
             border: '1px solid var(--dropdown-border)',
             borderRadius: 6,

@@ -187,8 +187,7 @@ export function LoginFace({ matcher, onLogin }) {
             {t("cancel")}
           </button>
         )}
-        <ThemeToggle />
-        <LanguageSelector />
+        
       </div>
     </section>
   );

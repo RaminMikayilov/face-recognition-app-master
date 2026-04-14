@@ -13,7 +13,7 @@ export function DashboardPage() {
   return (
     <div style={{ width: '100%', minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
       <header className={styles.userBanner}>
-        <span className={styles.welcomeText}>{t("loggedInAs")}: {currentUser}</span>
+        <span className={styles.welcomeText}>{t("loggedInAs")} {currentUser}</span>
         <button className={styles.btnLogout} onClick={logout}>
           {t("logOut")}
         </button>

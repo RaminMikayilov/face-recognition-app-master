@@ -27,7 +27,7 @@
   position: relative;
   width: 100%;
   aspect-ratio: 4 / 3;
-  background: #252537;
+  background: var(--code-bg);
   border-radius: 12px;
   overflow: hidden;
   border: 1px solid var(--border);
@@ -60,17 +60,17 @@
 }
 
 .faceGuide.verifying {
-  border-color: #60a5fa;
+  border-color: var(--info);
   border-style: solid;
 }
 
 .faceGuide.success {
-  border-color: #4ade80;
+  border-color: var(--success);
   border-style: solid;
 }
 
 .faceGuide.failed {
-  border-color: #f87171;
+  border-color: var(--danger);
   border-style: solid;
 }
 
@@ -88,15 +88,16 @@
   z-index: 20;
 }
 
-.statusVerifying { color: #60a5fa; }
+.statusVerifying { color: var(--info); }
 .statusLooking  { color: var(--text); }
-.statusSuccess  { color: #4ade80; }
-.statusFailed   { color: #f87171; }
+.statusSuccess  { color: var(--success); }
+.statusFailed   { color: var(--danger); }
 
 .actions {
   display: flex;
   gap: 10px;
   width: 100%;
+  align-items: center;
 }
 
 .btnPrimary {
@@ -141,7 +142,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  color: #444;
+  color: var(--text);
   gap: 10px;
   font-size: 14px;
 }

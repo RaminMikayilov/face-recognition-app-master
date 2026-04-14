@@ -104,7 +104,7 @@
   align-items: center;
   justify-content: space-between;
   padding: 10px 24px;
-  background: rgba(124, 103, 203, 0.08);
+  background: var(--accent-bg);
   border-bottom: 1px solid var(--border);
 }
 

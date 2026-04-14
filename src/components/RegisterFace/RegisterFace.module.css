@@ -50,7 +50,7 @@
   position: relative;
   width: 100%;
   aspect-ratio: 4 / 3;
-  background: #252537;
+  background: var(--code-bg);
   border-radius: 12px;
   overflow: hidden;
   border: 1px solid var(--border);
@@ -83,7 +83,7 @@
 }
 
 .faceGuide.capturing {
-  border-color: #60a5fa;
+  border-color: var(--info);
   border-style: solid;
 }
 
@@ -94,7 +94,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  color: #444;
+  color: var(--text);
   gap: 10px;
   font-size: 14px;
 }
@@ -109,6 +109,7 @@
   display: flex;
   gap: 10px;
   width: 100%;
+  align-items: center;
 }
 
 .btnPrimary,
@@ -142,10 +143,10 @@
 
 .error {
   font-size: 13px;
-  color: #f87171;
+  color: var(--danger);
   text-align: center;
-  background: rgba(239, 68, 68, 0.1);
-  border: 1px solid rgba(239, 68, 68, 0.25);
+  background: var(--danger-bg);
+  border: 1px solid var(--danger-border);
   border-radius: 6px;
   padding: 8px 12px;
   width: 100%;
@@ -153,10 +154,10 @@
 
 .success {
   font-size: 13px;
-  color: #4ade80;
+  color: var(--success);
   text-align: center;
-  background: rgba(74, 222, 128, 0.08);
-  border: 1px solid rgba(74, 222, 128, 0.2);
+  background: var(--success-bg);
+  border: 1px solid var(--success-border);
   border-radius: 6px;
   padding: 8px 12px;
   width: 100%;

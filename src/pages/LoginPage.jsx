@@ -15,19 +15,19 @@ export function LoginPage() {
   }
 
   return (
-    <div className={styles.container}>
-      <div className={styles.appHeader}>
+    <main id="main-content" className={styles.container}>
+      <header className={styles.appHeader}>
         <h1>{t("faceRecognition")}</h1>
         <p>{t("authenticateWithFace")}</p>
-      </div>
+      </header>
 
       <LoginFace matcher={matcher} onLogin={handleLogin} />
 
-      <div style={{ marginTop: '20px', textAlign: 'center' }}>
+      <nav style={{ marginTop: '20px', textAlign: 'center' }}>
         <p>
           {t("dontHaveProfile")} <Link to="/register">{t("registerHere")}</Link>
         </p>
-      </div>
-    </div>
+      </nav>
+    </main>
   )
 }

@@ -3,28 +3,7 @@ import { useAuth } from '../context/useAuth'
 import styles from '../components/Layout.module.css'
 import { useTranslation } from 'react-i18next'
 import LanguageSelector from '../components/LanguageSelector';
-
-const deleteBtnStyle = {
-  color: '#f87171',
-  background: 'rgba(248, 113, 113, 0.08)',
-  border: '1px solid rgba(248, 113, 113, 0.2)',
-  borderRadius: '6px',
-  padding: '5px 12px',
-  fontSize: '13px',
-  cursor: 'pointer',
-  fontWeight: 500,
-}
-
-const cancelBtnStyle = {
-  color: 'var(--text)',
-  background: 'transparent',
-  border: '1px solid var(--border)',
-  borderRadius: '6px',
-  padding: '5px 12px',
-  fontSize: '13px',
-  cursor: 'pointer',
-  fontWeight: 500,
-}
+import ThemeToggle from '../components/ThemeToggle';
 
 export function DashboardPage() {
   const { currentUser, logout, profiles, removeProfile } = useAuth()
@@ -33,14 +12,16 @@ export function DashboardPage() {
 
   return (
     <div style={{ width: '100%', minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
-      <div className={styles.userBanner}>
+      <header className={styles.userBanner}>
         <span className={styles.welcomeText}>{t("loggedInAs")}: {currentUser}</span>
         <button className={styles.btnLogout} onClick={logout}>
           {t("logOut")}
         </button>
-      </div>
+      </header>
 
       <main
+        id="main-content"
+        tabIndex={-1}
         style={{
           flex: 1,
           display: 'flex',
@@ -54,13 +35,13 @@ export function DashboardPage() {
       >
         <div
           style={{
-            background: 'rgba(255, 255, 255, 0.03)',
+            background: 'var(--card-bg)',
             border: '1px solid var(--border)',
             borderRadius: '16px',
             padding: '60px 40px',
             maxWidth: '600px',
             width: '100%',
-            boxShadow: '0 10px 30px rgba(0,0,0,0.2)',
+            boxShadow: `0 10px 30px var(--card-shadow)`,
             position: 'relative',
             overflow: 'hidden',
           }}
@@ -74,19 +55,18 @@ export function DashboardPage() {
               alignItems: 'center',
               gap: '6px',
               padding: '6px 12px',
-              background: 'rgba(74, 222, 128, 0.1)',
-              border: '1px solid rgba(74, 222, 128, 0.2)',
+              background: 'var(--success-bg)',
+              border: '1px solid var(--success-border)',
               borderRadius: '20px',
-              color: '#4ade80',
+              color: 'var(--success)',
               fontSize: '12px',
               fontWeight: '600',
             }}
           >
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+            <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
               <path d="M20 6L9 17l-5-5" />
             </svg>
             {t("faceIdVerified")}
-            
           </div>
 
           <h1 style={{ fontSize: '32px', marginBottom: '16px', color: 'var(--text-h)' }}>
@@ -100,15 +80,15 @@ export function DashboardPage() {
             style={{
               marginTop: '40px',
               padding: '24px',
-              background: 'rgba(74, 222, 128, 0.05)',
-              border: '1px solid rgba(74, 222, 128, 0.3)',
+              background: 'var(--success-bg)',
+              border: '1px solid var(--success-border)',
               borderRadius: '12px',
               textAlign: 'left',
             }}
           >
             <h2
               style={{
-                color: '#4ade80',
+                color: 'var(--success)',
                 fontSize: '16px',
                 marginBottom: '8px',
                 textTransform: 'uppercase',
@@ -118,7 +98,7 @@ export function DashboardPage() {
                 gap: '8px',
               }}
             >
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
                 <path d="M7 11V7a5 5 0 0 1 10 0v4" />
               </svg>
@@ -131,55 +111,90 @@ export function DashboardPage() {
         </div>
 
         <div style={{ maxWidth: '600px', width: '100%', marginTop: '24px', textAlign: 'left' }}>
-          <div style={{display:"flex",justifyContent:"space-between",marginBottom:"10px"}}><h2 style={{ fontSize: '15px', color: 'var(--text)', marginBottom: '12px', fontWeight: 600 }}>
-            {t("registeredProfiles")} ({profiles.length}) 
-          </h2>
-          <LanguageSelector/>
-          </div>
-          {profiles.map((p) => (
-            <div
-              key={p.name}
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                padding: '12px 16px',
-                background: 'rgba(255, 255, 255, 0.02)',
-                border: '1px solid var(--border)',
-                borderRadius: '8px',
-                marginBottom: '8px',
-              }}
-            >
-              <span style={{ color: 'var(--text-h)', fontSize: '14px', fontWeight: 500 }}>
-                {p.name}{p.name === currentUser ?` (${t("you")})`: ''}
-              </span>
-              {confirmDelete === p.name ? (
-                <div style={{ display: 'flex', gap: '8px' }}>
-                  <button style={cancelBtnStyle} onClick={() => setConfirmDelete(null)}>
-                    {t("cancel")}
-                  </button>
-                  <button
-                    style={deleteBtnStyle}
-                    onClick={() => { removeProfile(p.name); setConfirmDelete(null) }}
-                  >
-                    {"confirmDelete"}
-                  </button>
-                </div>
-              ) : (
-                <button style={deleteBtnStyle} onClick={() => setConfirmDelete(p.name)}>
-                  {t("delete")}
-                </button>
-              )}
+          <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:"10px"}}>
+            <h2 style={{ fontSize: '15px', color: 'var(--text)', marginBottom: '0', fontWeight: 600 }}>
+              {t("registeredProfiles")} ({profiles.length})
+            </h2>
+            <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+              <ThemeToggle />
+              <LanguageSelector/>
             </div>
-          ))}
+          </div>
+          <ul aria-label={t("profileListLabel")} style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+            {profiles.map((p) => (
+              <li
+                key={p.name}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  padding: '12px 16px',
+                  background: 'var(--card-bg)',
+                  border: '1px solid var(--border)',
+                  borderRadius: '8px',
+                  marginBottom: '8px',
+                }}
+              >
+                <span style={{ color: 'var(--text-h)', fontSize: '14px', fontWeight: 500 }}>
+                  {p.name}{p.name === currentUser ?` (${t("you")})`: ''}
+                </span>
+                {confirmDelete === p.name ? (
+                  <div style={{ display: 'flex', gap: '8px' }}>
+                    <button
+                      aria-label={t("cancelDeleteLabel", { name: p.name })}
+                      style={{
+                        color: 'var(--text)',
+                        background: 'transparent',
+                        border: '1px solid var(--border)',
+                        borderRadius: '6px',
+                        padding: '5px 12px',
+                        fontSize: '13px',
+                        cursor: 'pointer',
+                        fontWeight: 500,
+                      }}
+                      onClick={() => setConfirmDelete(null)}
+                    >
+                      {t("cancel")}
+                    </button>
+                    <button
+                      aria-label={t("confirmDeleteLabel", { name: p.name })}
+                      style={{
+                        color: 'var(--danger)',
+                        background: 'var(--danger-bg)',
+                        border: '1px solid var(--danger-border)',
+                        borderRadius: '6px',
+                        padding: '5px 12px',
+                        fontSize: '13px',
+                        cursor: 'pointer',
+                        fontWeight: 500,
+                      }}
+                      onClick={() => { removeProfile(p.name); setConfirmDelete(null) }}
+                    >
+                      {t("confirmDelete")}
+                    </button>
+                  </div>
+                ) : (
+                  <button
+                    aria-label={t("deleteProfileLabel", { name: p.name })}
+                    style={{
+                      color: 'var(--danger)',
+                      background: 'var(--danger-bg)',
+                      border: '1px solid var(--danger-border)',
+                      borderRadius: '6px',
+                      padding: '5px 12px',
+                      fontSize: '13px',
+                      cursor: 'pointer',
+                      fontWeight: 500,
+                    }}
+                    onClick={() => setConfirmDelete(p.name)}
+                  >
+                    {t("delete")}
+                  </button>
+                )}
+              </li>
+            ))}
+          </ul>
         </div>
-
-        <style>{`
-          @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-          }
-        `}</style>
       </main>
     </div>
   )

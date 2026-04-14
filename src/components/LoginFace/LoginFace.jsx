@@ -5,6 +5,7 @@ import { DETECTION_OPTIONS } from '../../constants/config';
 import styles from './LoginFace.module.css';
 import { useTranslation } from 'react-i18next';
 import LanguageSelector from '../LanguageSelector.jsx';
+import ThemeToggle from '../ThemeToggle';
 
 const STATUS = {
   IDLE: 'idle',
@@ -120,21 +121,21 @@ export function LoginFace({ matcher, onLogin }) {
 
   const overlayLabel = {
     [STATUS.IDLE]: null,
-    [STATUS.LOOKING]: { text: 'Align face within guide...', cls: styles.statusLooking, guideCls: styles.looking },
-    [STATUS.VERIFYING]: { text: 'Scanning...', cls: styles.statusVerifying, guideCls: styles.verifying },
-    [STATUS.SUCCESS]: { text: 'Welcome back!', cls: styles.statusSuccess, guideCls: styles.success },
-    [STATUS.FAILED]: { text: 'Could not verify face', cls: styles.statusFailed, guideCls: styles.failed },
+    [STATUS.LOOKING]: { text: t('alignFace'), cls: styles.statusLooking, guideCls: styles.looking },
+    [STATUS.VERIFYING]: { text: t('scanningFace'), cls: styles.statusVerifying, guideCls: styles.verifying },
+    [STATUS.SUCCESS]: { text: t('welcomeBackOverlay'), cls: styles.statusSuccess, guideCls: styles.success },
+    [STATUS.FAILED]: { text: t('couldNotVerify'), cls: styles.statusFailed, guideCls: styles.failed },
   }[matchStatus];
 
   return (
-    <div className={styles.wrapper}>
-      <h2 className={styles.title}>{t("welcomeBack")}</h2>
+    <section className={styles.wrapper} aria-labelledby="login-face-title">
+      <h2 id="login-face-title" className={styles.title}>{t("welcomeBack")}</h2>
       <p className={styles.subtitle}>
         {scanning ? t("lookAtCamera") : t("startFaceScan")}
       </p>
 
       <div className={`${styles.videoWrapper} ${scanning ? styles.scanning : ''}`}>
-        <video ref={videoRef} className={styles.video} autoPlay muted playsInline />
+        <video ref={videoRef} className={styles.video} autoPlay muted playsInline aria-label={t("videoFeedLabel")} />
 
         {scanning && (
           <div className={`${styles.faceGuide} ${overlayLabel?.guideCls || ''}`}>
@@ -144,7 +145,7 @@ export function LoginFace({ matcher, onLogin }) {
 
         {!scanning && (
           <div className={styles.placeholder}>
-            <svg className={styles.placeholderIcon} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+            <svg aria-hidden="true" className={styles.placeholderIcon} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
               <path d="M23 7l-7 5 7 5V7z" />
               <rect x="1" y="5" width="15" height="14" rx="2" ry="2" />
             </svg>
@@ -157,6 +158,10 @@ export function LoginFace({ matcher, onLogin }) {
             {overlayLabel.text}
           </div>
         )}
+      </div>
+
+      <div aria-live="polite" className="sr-only">
+        {overlayLabel?.text}
       </div>
 
       <div className={styles.actions}>
@@ -182,8 +187,9 @@ export function LoginFace({ matcher, onLogin }) {
             {t("cancel")}
           </button>
         )}
+        <ThemeToggle />
         <LanguageSelector />
       </div>
-    </div>
+    </section>
   );
 }

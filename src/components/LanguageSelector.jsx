@@ -1,10 +1,8 @@
 import { locale } from 'primereact/api'
-import { Button } from 'primereact/button'
 import { useState, useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import azFlag from '../assets/az.png'
 import gbFlag from '../assets/gb.png'
-
 
 const languages = [
   { code: 'az', label: 'AZ', flag: azFlag },
@@ -19,6 +17,7 @@ export default function LanguageSelector() {
   })
   const [open, setOpen] = useState(false)
   const dropdownRef = useRef(null)
+  const optionRefs = useRef([])
 
   useEffect(() => {
     i18n.changeLanguage(activeLang)
@@ -32,6 +31,7 @@ export default function LanguageSelector() {
     setOpen(false)
     locale(lang)
   }
+
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -50,67 +50,109 @@ export default function LanguageSelector() {
     }
   }, [open])
 
+  useEffect(() => {
+    if (open) {
+      const activeIndex = languages.findIndex((l) => l.code === activeLang)
+      optionRefs.current[activeIndex]?.focus()
+    }
+  }, [open, activeLang])
+
+  const handleButtonKeyDown = (e) => {
+    if (e.key === 'Escape') {
+      setOpen(false)
+    } else if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+      e.preventDefault()
+      setOpen(true)
+    }
+  }
+
+  const handleOptionKeyDown = (e, langCode) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault()
+      handleSelect(langCode)
+    } else if (e.key === 'Escape') {
+      setOpen(false)
+    } else if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+      e.preventDefault()
+      const currentIndex = languages.findIndex((l) => l.code === langCode)
+      const nextIndex = e.key === 'ArrowDown'
+        ? (currentIndex + 1) % languages.length
+        : (currentIndex - 1 + languages.length) % languages.length
+      optionRefs.current[nextIndex]?.focus()
+    }
+  }
+
   return (
     <div style={{ position: 'relative', cursor: 'pointer' }} ref={dropdownRef}>
-      <Button
-        tooltip={t('changeLanguage')}
-        tooltipOptions={{
-          position: 'top',
-        }}
-        rounded
-        severity="success"
-        text
-        className="hover-green-effekt"
+      <button
+        aria-label={t('selectLanguage')}
+        aria-haspopup="listbox"
+        aria-expanded={open}
         onClick={() => setOpen(!open)}
+        onKeyDown={handleButtonKeyDown}
+        title={t('changeLanguage')}
         style={{
           borderRadius: 6,
           display: 'flex',
           alignItems: 'center',
           padding: '4px',
           cursor: 'pointer',
+          border: '1px solid var(--border)',
+          background: 'transparent',
+          width: 36,
+          height: 36,
+          justifyContent: 'center',
         }}
       >
         <img
-          style={{ width: 30, height: 28 }}
+          style={{ width: 28, height: 26 }}
           src={languages.find((l) => l.code === activeLang)?.flag}
           alt={activeLang}
         />
-      </Button>
+      </button>
       {open && (
         <div
+          role="listbox"
+          aria-label={t('selectLanguage')}
           style={{
             position: 'absolute',
             right: 0,
             bottom: '150%',
-            background: '#fff',
-            border: '1px solid #ddd',
+            background: 'var(--dropdown-bg)',
+            border: '1px solid var(--dropdown-border)',
             borderRadius: 6,
             minWidth: 100,
             zIndex: 100,
-            boxShadow: '0 3px 6px rgba(0,0,0,0.1)',
+            boxShadow: '0 3px 6px var(--card-shadow)',
             overflow: 'hidden',
           }}
         >
-          {languages.map((l) => {
+          {languages.map((l, i) => {
             const isActive = l.code === activeLang
 
             return (
               <div
                 key={l.code}
+                ref={(el) => (optionRefs.current[i] = el)}
+                role="option"
+                aria-selected={isActive}
+                tabIndex={0}
                 onClick={() => handleSelect(l.code)}
+                onKeyDown={(e) => handleOptionKeyDown(e, l.code)}
                 style={{
                   padding: '6px 12px',
                   cursor: 'pointer',
                   display: 'flex',
                   alignItems: 'center',
                   gap: 6,
-                  backgroundColor: isActive ? '#d0f0e0' : '#fff',
+                  backgroundColor: isActive ? 'var(--success-bg)' : 'var(--dropdown-bg)',
                   fontWeight: isActive ? '600' : '400',
-                  borderLeft: isActive ? '4px solid #339967' : '4px solid transparent',
+                  color: 'var(--text-h)',
+                  borderLeft: isActive ? '4px solid var(--success)' : '4px solid transparent',
                   transition: 'all 0.2s',
                 }}
               >
-                <img style={{ width: 30, height: 28 }} src={l.flag} alt={l.label} />
+                <img style={{ width: 28, height: 26 }} src={l.flag} alt={l.label} />
                 {l.label}
               </div>
             )

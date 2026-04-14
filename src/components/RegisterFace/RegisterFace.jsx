@@ -5,6 +5,7 @@ import { DETECTION_OPTIONS, FACE_MATCH_THRESHOLD } from '../../constants/config'
 import styles from './RegisterFace.module.css'
 import { isNameTaken, getMatchingProfile } from '../../utils/faceAuthStorage'
 import LanguageSelector from '../LanguageSelector'
+import ThemeToggle from '../ThemeToggle'
 import { useTranslation } from 'react-i18next'
 
 export function RegisterFace({ onRegister }) {
@@ -75,12 +76,14 @@ export function RegisterFace({ onRegister }) {
   }
 
   return (
-    <div className={styles.wrapper}>
-      <h2 className={styles.title}>{t("registerYourFace")}</h2>
+    <section className={styles.wrapper} aria-labelledby="register-face-title">
+      <h2 id="register-face-title" className={styles.title}>{t("registerYourFace")}</h2>
       <p className={styles.subtitle}>{t("enterYourNameOpenCamera")}</p>
 
       <div className={styles.form}>
+        <label htmlFor="register-name" className="sr-only">{t("nameInputLabel")}</label>
         <input
+          id="register-name"
           className={styles.input}
           type="text"
           placeholder={t("yourName")}
@@ -92,8 +95,8 @@ export function RegisterFace({ onRegister }) {
       </div>
 
       <div className={`${styles.videoWrapper} ${capturing ? styles.capturing : ''}`}>
-        <video ref={videoRef} className={styles.video} autoPlay muted playsInline />
-        
+        <video ref={videoRef} className={styles.video} autoPlay muted playsInline aria-label={t("videoFeedLabel")} />
+
         {isCameraOn && (
           <div className={`${styles.faceGuide} ${capturing ? styles.capturing : styles.active}`}>
             <div className={styles.scanLine} />
@@ -103,6 +106,7 @@ export function RegisterFace({ onRegister }) {
         {!isCameraOn && (
           <div className={styles.placeholder}>
             <svg
+              aria-hidden="true"
               className={styles.placeholderIcon}
               viewBox="0 0 24 24"
               fill="none"
@@ -120,7 +124,7 @@ export function RegisterFace({ onRegister }) {
       </div>
 
       {feedback && (
-        <div className={feedback.type === 'error' ? styles.error : styles.success}>
+        <div role="alert" className={feedback.type === 'error' ? styles.error : styles.success}>
           {feedback.message}
         </div>
       )}
@@ -130,7 +134,7 @@ export function RegisterFace({ onRegister }) {
           <button className={styles.btnPrimary} onClick={handleOpenCamera} disabled={!canOpenCamera}>
             {t("openCamera")}
           </button>
-            
+
         ) : (
           <>
             <button className={styles.btnSecondary} onClick={stopCamera}>
@@ -141,8 +145,9 @@ export function RegisterFace({ onRegister }) {
             </button>
           </>
         )}
+        <ThemeToggle />
         <LanguageSelector />
       </div>
-    </div>
+    </section>
   )
 }

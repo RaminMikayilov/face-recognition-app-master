@@ -3,6 +3,8 @@ import { useAuth } from '../context/useAuth'
 import { RegisterFace } from '../components/RegisterFace'
 import styles from '../components/Layout.module.css'
 import { useTranslation } from 'react-i18next'
+import ThemeToggle from '../components/ThemeToggle'
+import LanguageSelector from '../components/LanguageSelector'
 
 export function RegisterPage() {
   const { register } = useAuth()
@@ -19,6 +21,10 @@ export function RegisterPage() {
       <header className={styles.appHeader}>
         <h1>{t("faceRecognition")}</h1>
         <p>{t("authenticateWithFace")}</p>
+        <div className={styles.actions}>
+          <ThemeToggle />
+          <LanguageSelector />
+        </div>
       </header>
 
       <RegisterFace onRegister={handleRegister} />

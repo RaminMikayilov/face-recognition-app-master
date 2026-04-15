@@ -4,8 +4,6 @@ import { useCamera, CAMERA_STATUS } from '../../hooks/useCamera'
 import { DETECTION_OPTIONS, FACE_MATCH_THRESHOLD } from '../../constants/config'
 import styles from './RegisterFace.module.css'
 import { isNameTaken, getMatchingProfile } from '../../utils/faceAuthStorage'
-import LanguageSelector from '../LanguageSelector'
-import ThemeToggle from '../ThemeToggle'
 import { useTranslation } from 'react-i18next'
 
 export function RegisterFace({ onRegister }) {
@@ -145,8 +143,6 @@ export function RegisterFace({ onRegister }) {
             </button>
           </>
         )}
-        <ThemeToggle />
-        <LanguageSelector />
       </div>
     </section>
   )

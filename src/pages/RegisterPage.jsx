@@ -11,8 +11,8 @@ export function RegisterPage() {
   const navigate = useNavigate()
   const {t} = useTranslation();
 
-  const handleRegister = (name, descriptor) => {
-    register(name, descriptor)
+  const handleRegister = async (name, descriptor) => {
+    await register(name, descriptor)
     navigate('/dashboard')
   }
 

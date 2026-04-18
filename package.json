@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "face-api.js": "^0.22.2",
+    "firebase": "^12.12.0",
     "i18next": "^26.0.4",
     "primeflex": "^4.0.0",
     "primeicons": "^7.0.0",

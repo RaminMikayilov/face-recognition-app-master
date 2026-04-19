@@ -1,6 +1,6 @@
 import { useState, useCallback, useEffect, useMemo } from 'react'
 import * as faceapi from 'face-api.js'
-import { getProfiles, saveProfile, deleteProfile } from '../utils/profileStorage'
+import { getProfiles, saveProfile, deleteProfile, renameProfile as renameProfileStorage } from '../utils/profileStorage'
 import { FACE_MATCH_THRESHOLD } from '../constants/config'
 import { AuthContext } from './authContext'
 import { AUTH_STATE } from './authState'
@@ -62,6 +62,13 @@ export function AuthProvider({ children }) {
     }
   }, [currentUser])
 
+  const renameProfile = useCallback(async (oldName, newName) => {
+    await renameProfileStorage(oldName, newName)
+    const updated = await getProfiles()
+    setProfiles(updated)
+    if (currentUser === oldName) setCurrentUser(newName)
+  }, [currentUser])
+
   const currentRole = profiles.find((p) => p.name === currentUser)?.role ?? 'user'
 
   const value = {
@@ -76,6 +83,7 @@ export function AuthProvider({ children }) {
     login,
     logout,
     removeProfile,
+    renameProfile,
   }
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>

@@ -60,6 +60,22 @@ export async function deleteProfile(name) {
   deleteProfileFromLocal(name)
 }
 
+export async function renameProfile(oldName, newName) {
+  const profiles = await getProfiles()
+  const existing = profiles.find((p) => p.name === oldName)
+  if (!existing) return
+  const { descriptor, role } = existing
+  if (!isFirebaseEnabled) {
+    deleteProfileFromLocal(oldName)
+    saveProfileToLocal(newName, descriptor, role)
+    return
+  }
+  await deleteProfileFromFirestore(oldName)
+  await saveProfileToFirestore(newName, descriptor, role)
+  deleteProfileFromLocal(oldName)
+  saveProfileToLocal(newName, descriptor, role)
+}
+
 export async function isNameTaken(name) {
   if (!isFirebaseEnabled) return isNameTakenInLocal(name)
   try {

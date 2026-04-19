@@ -60,5 +60,9 @@
   "allProfiles": "Bütün profillər",
   "dashboard": "İdarə paneli",
   "admin": "admin",
-  "user": "istifadəçi"
+  "user": "istifadəçi",
+  "editProfile": "Redaktə et",
+  "saveChanges": "Yadda saxla",
+  "nameTaken": "Bu ad artıq istifadə olunur",
+  "nameRequired": "Ad boş ola bilməz"
 }

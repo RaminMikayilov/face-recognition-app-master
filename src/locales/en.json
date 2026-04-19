@@ -60,5 +60,9 @@
   "allProfiles": "All profiles",
   "dashboard": "Dashboard",
   "admin": "admin",
-  "user": "user"
+  "user": "user",
+  "editProfile": "Edit",
+  "saveChanges": "Save",
+  "nameTaken": "This name is already taken",
+  "nameRequired": "Name cannot be empty"
 }

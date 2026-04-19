@@ -14,6 +14,10 @@ export function DashboardPage() {
     <div style={{ width: '100%', minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
       <header className={styles.userBanner}>
         <span className={styles.welcomeText}>{t("loggedInAs")} {currentUser}</span>
+        <div className={styles.actions}>
+          <ThemeToggle />
+          <LanguageSelector />
+        </div>
         <button className={styles.btnLogout} onClick={logout}>
           {t("logOut")}
         </button>
@@ -111,15 +115,9 @@ export function DashboardPage() {
         </div>
 
         <div style={{ maxWidth: '600px', width: '100%', marginTop: '24px', textAlign: 'left' }}>
-          <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:"10px"}}>
-            <h2 style={{ fontSize: '15px', color: 'var(--text)', marginBottom: '0', fontWeight: 600 }}>
-              {t("registeredProfiles")} ({profiles.length})
-            </h2>
-            <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-              <ThemeToggle />
-              <LanguageSelector/>
-            </div>
-          </div>
+          <h2 style={{ fontSize: '15px', color: 'var(--text)', marginBottom: '10px', fontWeight: 600 }}>
+            {t("registeredProfiles")} ({profiles.length})
+          </h2>
           <ul aria-label={t("profileListLabel")} style={{ listStyle: 'none', padding: 0, margin: 0 }}>
             {profiles.map((p) => (
               <li

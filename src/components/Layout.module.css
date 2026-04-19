@@ -43,7 +43,9 @@
 }
 
 @keyframes spin {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .container {
@@ -100,7 +102,9 @@
   border: none;
   background: transparent;
   color: var(--text-2);
-  transition: background 0.15s, color 0.15s;
+  transition:
+    background 0.15s,
+    color 0.15s;
 }
 
 .tab.active {
@@ -109,11 +113,11 @@
 }
 
 .userBanner {
-  width: 100%;
+  width: calc(100% - 58px);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 10px 24px;
+  padding: 1rem 2rem;
   background: var(--accent-bg);
   border-bottom: 1px solid var(--border);
 }

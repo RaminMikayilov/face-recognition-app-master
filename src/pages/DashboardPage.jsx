@@ -150,9 +150,7 @@ export function DashboardPage() {
           <h2 style={{ fontSize: '15px', color: 'var(--text)', marginBottom: '2px', fontWeight: 600 }}>
             {t("yourProfile")}
           </h2>
-          <p style={{ fontSize: '12px', color: 'var(--text)', opacity: 0.6, marginBottom: '10px', margin: '0 0 10px' }}>
-            {t("totalProfilesInfo", { count: profiles.length })}
-          </p>
+
           <ul aria-label={t("profileListLabel")} style={{ listStyle: 'none', padding: 0, margin: 0 }}>
             {profiles.filter(p => p.name === currentUser).map((p) => (
               <li

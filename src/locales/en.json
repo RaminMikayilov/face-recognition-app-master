@@ -31,6 +31,8 @@
   "secureVault": "Secure Vault",
   "biometricSecurityInfo": "Your biometric data is encrypted and stored locally in your browser's secure storage. No facial images are ever uploaded to a server, ensuring your privacy remains 100% intact.",
   "registeredProfiles": "Registered Profiles",
+  "yourProfile": "Your Profile",
+  "totalProfilesInfo": "{{count}} profiles registered in this system",
   "you": "you",
   "confirmDelete": "Confirm delete",
   "delete": "Delete",

@@ -115,11 +115,14 @@ export function DashboardPage() {
         </div>
 
         <div style={{ maxWidth: '600px', width: '100%', marginTop: '24px', textAlign: 'left' }}>
-          <h2 style={{ fontSize: '15px', color: 'var(--text)', marginBottom: '10px', fontWeight: 600 }}>
-            {t("registeredProfiles")} ({profiles.length})
+          <h2 style={{ fontSize: '15px', color: 'var(--text)', marginBottom: '2px', fontWeight: 600 }}>
+            {t("yourProfile")}
           </h2>
+          <p style={{ fontSize: '12px', color: 'var(--text)', opacity: 0.6, marginBottom: '10px', margin: '0 0 10px' }}>
+            {t("totalProfilesInfo", { count: profiles.length })}
+          </p>
           <ul aria-label={t("profileListLabel")} style={{ listStyle: 'none', padding: 0, margin: 0 }}>
-            {profiles.map((p) => (
+            {profiles.filter(p => p.name === currentUser).map((p) => (
               <li
                 key={p.name}
                 style={{
@@ -134,7 +137,7 @@ export function DashboardPage() {
                 }}
               >
                 <span style={{ color: 'var(--text-h)', fontSize: '14px', fontWeight: 500 }}>
-                  {p.name}{p.name === currentUser ?` (${t("you")})`: ''}
+                  {p.name}
                 </span>
                 {confirmDelete === p.name ? (
                   <div style={{ display: 'flex', gap: '8px' }}>

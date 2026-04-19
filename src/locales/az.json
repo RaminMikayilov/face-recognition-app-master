@@ -29,6 +29,8 @@
   "secureVault": "Təhlükəsiz yaddaş",
   "biometricSecurityInfo": "Biometrik məlumatlarınız şifrələnərək brauzerinizin təhlükəsiz yaddaşında saxlanılır. Heç bir üz şəkli serverə göndərilmir və məxfiliyiniz tam qorunur.",
   "registeredProfiles": "Qeydiyyatdan keçmiş profillər",
+  "yourProfile": "Profiliniz",
+  "totalProfilesInfo": "Bu sistemdə {{count}} profil qeydiyyatdan keçib",
   "you": "siz",
   "confirmDelete": "Silməni təsdiqlə",
   "loginHere": "Buradan daxil olun",

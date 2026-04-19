@@ -18,14 +18,16 @@ export async function getProfilesFromFirestore() {
     return {
       name: data.name ?? d.id,
       descriptor: new Float32Array(data.descriptor),
+      role: data.role ?? 'user',
     }
   })
 }
 
-export async function saveProfileToFirestore(name, descriptor) {
+export async function saveProfileToFirestore(name, descriptor, role = 'user') {
   await setDoc(doc(db, PROFILES_COLLECTION, name), {
     name,
     descriptor: Array.from(descriptor),
+    role,
     updatedAt: serverTimestamp(),
   })
 }

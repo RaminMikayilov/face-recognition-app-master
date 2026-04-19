@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 import { useAuth } from '../context/useAuth'
 import styles from '../components/Layout.module.css'
 import { useTranslation } from 'react-i18next'
@@ -6,7 +7,7 @@ import LanguageSelector from '../components/LanguageSelector';
 import ThemeToggle from '../components/ThemeToggle';
 
 export function DashboardPage() {
-  const { currentUser, logout, profiles, removeProfile } = useAuth()
+  const { currentUser, currentRole, logout, profiles, removeProfile } = useAuth()
   const [confirmDelete, setConfirmDelete] = useState(null)
   const {t} = useTranslation();
 
@@ -18,6 +19,11 @@ export function DashboardPage() {
           <ThemeToggle />
           <LanguageSelector />
         </div>
+        {currentRole === 'admin' && (
+          <Link to="/admin" className={styles.btnAdmin}>
+            {t("adminPanel")}
+          </Link>
+        )}
         <button className={styles.btnLogout} onClick={logout}>
           {t("logOut")}
         </button>

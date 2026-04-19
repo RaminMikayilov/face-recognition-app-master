@@ -128,6 +128,24 @@
   font-weight: 500;
 }
 
+.btnAdmin {
+  padding: 5px 14px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid var(--accent);
+  background: var(--accent-bg);
+  color: var(--accent);
+  text-decoration: none;
+  transition: background 0.15s;
+}
+
+.btnAdmin:hover {
+  background: var(--accent);
+  color: #fff;
+}
+
 .btnLogout {
   padding: 5px 14px;
   border-radius: 6px;

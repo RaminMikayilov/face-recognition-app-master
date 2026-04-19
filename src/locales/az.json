@@ -55,5 +55,10 @@
   "couldNotVerify": "Üz təsdiq edilə bilmədi",
   "darkMode": "Qaranlıq rejim",
   "lightMode": "İşıqlı rejim",
-  "toggleTheme": "Mövzunu dəyiş"
+  "toggleTheme": "Mövzunu dəyiş",
+  "adminPanel": "Admin Paneli",
+  "allProfiles": "Bütün profillər",
+  "dashboard": "İdarə paneli",
+  "admin": "admin",
+  "user": "istifadəçi"
 }

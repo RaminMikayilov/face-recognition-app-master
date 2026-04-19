@@ -62,9 +62,12 @@ export function AuthProvider({ children }) {
     }
   }, [currentUser])
 
+  const currentRole = profiles.find((p) => p.name === currentUser)?.role ?? 'user'
+
   const value = {
     authState,
     currentUser,
+    currentRole,
     profiles,
     matcher,
     loading,

@@ -4,9 +4,11 @@ import { useAuth } from './context/useAuth'
 import { AUTH_STATE } from './context/authState'
 import { ModelLoader } from './components/ModelLoader'
 import { ProtectedRoute } from './components/ProtectedRoute'
+import { AdminRoute } from './components/AdminRoute'
 import { LoginPage } from './pages/LoginPage'
 import { RegisterPage } from './pages/RegisterPage'
 import { DashboardPage } from './pages/DashboardPage'
+import { AdminPage } from './pages/AdminPage'
 import './App.css'
 
 function RootRedirect() {
@@ -34,6 +36,14 @@ function App() {
                 <ProtectedRoute>
                   <DashboardPage />
                 </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin"
+              element={
+                <AdminRoute>
+                  <AdminPage />
+                </AdminRoute>
               }
             />
             <Route path="/" element={<RootRedirect />} />

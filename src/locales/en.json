@@ -55,5 +55,10 @@
   "couldNotVerify": "Could not verify face",
   "darkMode": "Dark mode",
   "lightMode": "Light mode",
-  "toggleTheme": "Toggle theme"
+  "toggleTheme": "Toggle theme",
+  "adminPanel": "Admin Panel",
+  "allProfiles": "All profiles",
+  "dashboard": "Dashboard",
+  "admin": "admin",
+  "user": "user"
 }

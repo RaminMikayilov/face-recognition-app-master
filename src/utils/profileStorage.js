@@ -12,10 +12,16 @@ import {
   isNameTakenInFirestore,
 } from './firestoreProfiles'
 
+const ADMIN_NAME = import.meta.env.VITE_ADMIN_NAME
+
+function resolveRole(name) {
+  return ADMIN_NAME && name === ADMIN_NAME ? 'admin' : 'user'
+}
+
 function writeCache(profiles) {
   try {
     const serialized = JSON.stringify(
-      profiles.map((p) => ({ name: p.name, descriptor: Array.from(p.descriptor) })),
+      profiles.map((p) => ({ name: p.name, descriptor: Array.from(p.descriptor), role: p.role })),
     )
     localStorage.setItem('face_auth_profiles', serialized)
   } catch {
@@ -36,12 +42,13 @@ export async function getProfiles() {
 }
 
 export async function saveProfile(name, descriptor) {
+  const role = resolveRole(name)
   if (!isFirebaseEnabled) {
-    saveProfileToLocal(name, descriptor)
+    saveProfileToLocal(name, descriptor, role)
     return
   }
-  await saveProfileToFirestore(name, descriptor)
-  saveProfileToLocal(name, descriptor)
+  await saveProfileToFirestore(name, descriptor, role)
+  saveProfileToLocal(name, descriptor, role)
 }
 
 export async function deleteProfile(name) {

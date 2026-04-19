@@ -8,16 +8,17 @@ export function getProfiles() {
     return parsed.map((p) => ({
       name: p.name,
       descriptor: new Float32Array(p.descriptor),
+      role: p.role ?? 'user',
     }));
   } catch {
     return [];
   }
 }
 
-export function saveProfile(name, descriptor) {
+export function saveProfile(name, descriptor, role = 'user') {
   const profiles = getProfiles();
   const existing = profiles.findIndex((p) => p.name === name);
-  const entry = { name, descriptor: Array.from(descriptor) };
+  const entry = { name, descriptor: Array.from(descriptor), role };
   if (existing >= 0) {
     profiles[existing] = entry;
   } else {
@@ -25,7 +26,7 @@ export function saveProfile(name, descriptor) {
   }
   localStorage.setItem(
     STORAGE_KEY,
-    JSON.stringify(profiles.map((p) => ({ name: p.name, descriptor: Array.from(p.descriptor) })))
+    JSON.stringify(profiles.map((p) => ({ name: p.name, descriptor: Array.from(p.descriptor), role: p.role })))
   );
 }
 
@@ -48,7 +49,7 @@ export function deleteProfile(name) {
   const profiles = getProfiles().filter((p) => p.name !== name);
   localStorage.setItem(
     STORAGE_KEY,
-    JSON.stringify(profiles.map((p) => ({ name: p.name, descriptor: Array.from(p.descriptor) })))
+    JSON.stringify(profiles.map((p) => ({ name: p.name, descriptor: Array.from(p.descriptor), role: p.role })))
   );
 }
 

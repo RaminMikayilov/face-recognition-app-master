@@ -3,6 +3,7 @@
   "lookAtCamera": "Look at the camera to log in.",
   "startFaceScan": "Click the button below to start face scan.",
   "cameraOff": "Camera is off",
+  "startingCamera": "Starting camera…",
   "loginWithFace": "Login with Face",
   "cancel": "Cancel",
   "tryAgain": "Try Again",

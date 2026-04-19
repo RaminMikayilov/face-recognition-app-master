@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import * as faceapi from 'face-api.js'
 import { useCamera, CAMERA_STATUS } from '../../hooks/useCamera'
 import { DETECTION_OPTIONS, FACE_MATCH_THRESHOLD } from '../../constants/config'
@@ -8,12 +8,18 @@ import { useTranslation } from 'react-i18next'
 
 export function RegisterFace({ onRegister }) {
   const {t} = useTranslation();
-  const { videoRef, status: cameraStatus, startCamera, stopCamera } = useCamera()
+  const { videoRef, status: cameraStatus, error: cameraError, startCamera, stopCamera } = useCamera()
   const [name, setName] = useState('')
   const [feedback, setFeedback] = useState(null)
   const [capturing, setCapturing] = useState(false)
 
   const isCameraOn = cameraStatus === CAMERA_STATUS.ACTIVE
+  const isRequesting = cameraStatus === CAMERA_STATUS.REQUESTING
+  const nameTaken = name.trim().length > 0 && isNameTaken(name.trim())
+
+  useEffect(() => {
+    if (cameraError) setFeedback({ type: 'error', message: cameraError })
+  }, [cameraError])
 
   async function handleSaveFace() {
     const video = videoRef.current
@@ -52,23 +58,16 @@ export function RegisterFace({ onRegister }) {
       stopCamera()
       setTimeout(() => onRegister(name.trim(), result.descriptor), 800)
     } catch (err) {
-      setFeedback({ type: 'error',message: t("detectionFailed", { error: err.message }),})
+      setFeedback({ type: 'error', message: t("detectionFailed", { error: err.message }) })
     } finally {
       setCapturing(false)
     }
   }
 
   const canSave = isCameraOn && name.trim().length > 0 && !capturing
-  const canOpenCamera = !isCameraOn && name.trim().length > 0
+  const canOpenCamera = !isCameraOn && name.trim().length > 0 && !nameTaken
 
   function handleOpenCamera() {
-    if (isNameTaken(name.trim())) {
-      setFeedback({
-        type: 'error',
-        message: t("nameAlreadyRegistered"),
-      })
-      return
-    }
     setFeedback(null)
     startCamera()
   }
@@ -90,6 +89,9 @@ export function RegisterFace({ onRegister }) {
           maxLength={40}
           autoFocus
         />
+        {nameTaken && (
+          <p className={styles.inputHint}>{t("nameAlreadyRegistered")}</p>
+        )}
       </div>
 
       <div className={`${styles.videoWrapper} ${capturing ? styles.capturing : ''}`}>
@@ -101,7 +103,14 @@ export function RegisterFace({ onRegister }) {
           </div>
         )}
 
-        {!isCameraOn && (
+        {isRequesting && (
+          <div className={styles.placeholder}>
+            <div className={styles.spinner} aria-label={t("startingCamera")} />
+            <span>{t("startingCamera")}</span>
+          </div>
+        )}
+
+        {!isCameraOn && !isRequesting && (
           <div className={styles.placeholder}>
             <svg
               aria-hidden="true"

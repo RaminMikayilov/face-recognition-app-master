@@ -19,6 +19,7 @@
   "openCamera": "Open Camera",
   "saveFace": "Save Face",
   "saving": "Saving...",
+  "pageTitle": "Face Recognition App",
   "faceRecognition": "Face Recognition",
   "authenticateWithFace": "Authenticate with your face to continue",
   "dontHaveProfile": "Don't have a profile?",

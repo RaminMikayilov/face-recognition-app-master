@@ -1,4 +1,6 @@
+import { useEffect } from 'react'
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { AuthProvider } from './context/AuthContext.jsx'
 import { useAuth } from './context/useAuth'
 import { AUTH_STATE } from './context/authState'
@@ -20,6 +22,12 @@ function RootRedirect() {
 }
 
 function App() {
+  const { t, i18n } = useTranslation()
+
+  useEffect(() => {
+    document.title = t('pageTitle')
+  }, [t, i18n.language])
+
   return (
     <AuthProvider>
       <ModelLoader>

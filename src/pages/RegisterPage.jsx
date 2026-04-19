@@ -31,7 +31,7 @@ export function RegisterPage() {
 
       <nav style={{ marginTop: '20px', textAlign: 'center' }}>
         <p>
-          {t("dontHaveProfile")} <Link to="/login">{t("loginHere")}</Link>
+          {t("alreadyHaveAccount")} <Link to="/login">{t("loginHere")}</Link>
         </p>
       </nav>
     </main>

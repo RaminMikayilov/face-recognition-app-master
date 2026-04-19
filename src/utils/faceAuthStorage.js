@@ -56,3 +56,17 @@ export function deleteProfile(name) {
 export function hasProfiles() {
   return getProfiles().length > 0;
 }
+
+const SESSION_KEY = 'face_auth_session';
+
+export function getSessionUser() {
+  return localStorage.getItem(SESSION_KEY) ?? null;
+}
+
+export function setSessionUser(name) {
+  localStorage.setItem(SESSION_KEY, name);
+}
+
+export function clearSessionUser() {
+  localStorage.removeItem(SESSION_KEY);
+}

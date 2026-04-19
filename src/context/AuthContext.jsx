@@ -1,6 +1,7 @@
 import { useState, useCallback, useEffect, useMemo } from 'react'
 import * as faceapi from 'face-api.js'
 import { getProfiles, saveProfile, deleteProfile, renameProfile as renameProfileStorage } from '../utils/profileStorage'
+import { getSessionUser, setSessionUser, clearSessionUser } from '../utils/faceAuthStorage'
 import { FACE_MATCH_THRESHOLD } from '../constants/config'
 import { AuthContext } from './authContext'
 import { AUTH_STATE } from './authState'
@@ -15,7 +16,14 @@ export function AuthProvider({ children }) {
     let cancelled = false
     getProfiles()
       .then((list) => {
-        if (!cancelled) setProfiles(list)
+        if (!cancelled) {
+          setProfiles(list)
+          const saved = getSessionUser()
+          if (saved && list.some((p) => p.name === saved)) {
+            setCurrentUser(saved)
+            setAuthState(AUTH_STATE.AUTHENTICATED)
+          }
+        }
       })
       .catch((err) => {
         console.error('Failed to load profiles', err)
@@ -38,16 +46,19 @@ export function AuthProvider({ children }) {
     await saveProfile(name, descriptor)
     const updated = await getProfiles()
     setProfiles(updated)
+    setSessionUser(name)
     setCurrentUser(name)
     setAuthState(AUTH_STATE.AUTHENTICATED)
   }, [])
 
   const login = useCallback((name) => {
+    setSessionUser(name)
     setCurrentUser(name)
     setAuthState(AUTH_STATE.AUTHENTICATED)
   }, [])
 
   const logout = useCallback(() => {
+    clearSessionUser()
     setCurrentUser(null)
     setAuthState(AUTH_STATE.UNAUTHENTICATED)
   }, [])
@@ -57,6 +68,7 @@ export function AuthProvider({ children }) {
     const updated = await getProfiles()
     setProfiles(updated)
     if (currentUser === name) {
+      clearSessionUser()
       setCurrentUser(null)
       setAuthState(AUTH_STATE.UNAUTHENTICATED)
     }
@@ -66,7 +78,10 @@ export function AuthProvider({ children }) {
     await renameProfileStorage(oldName, newName)
     const updated = await getProfiles()
     setProfiles(updated)
-    if (currentUser === oldName) setCurrentUser(newName)
+    if (currentUser === oldName) {
+      setSessionUser(newName)
+      setCurrentUser(newName)
+    }
   }, [currentUser])
 
   const currentRole = profiles.find((p) => p.name === currentUser)?.role ?? 'user'

@@ -3,7 +3,9 @@ import { useAuth } from '../../context/useAuth'
 import { AUTH_STATE } from '../../context/authState'
 
 export function ProtectedRoute({ children }) {
-  const { authState } = useAuth()
+  const { authState, loading } = useAuth()
+
+  if (loading) return null
 
   if (authState !== AUTH_STATE.AUTHENTICATED) {
     return <Navigate to="/login" replace />

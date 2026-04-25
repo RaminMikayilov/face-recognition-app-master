@@ -15,41 +15,44 @@ export function AdminPage() {
   return (
     <div style={{ width: '100%', minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
       <header className={styles.userBanner}>
-        <span className={styles.welcomeText}>{t("loggedInAs")} {currentUser}</span>
+        <span className={styles.welcomeText}>
+          {t('loggedInAs')} {currentUser}
+        </span>
         <div className={styles.bannerActions}>
           <ThemeToggle />
           <LanguageSelector />
         </div>
         <Link to="/dashboard" className={styles.btnAdmin}>
-          {t("dashboard")}
+          {t('dashboard')}
         </Link>
         <button className={styles.btnLogout} onClick={logout}>
-          {t("logOut")}
+          {t('logOut')}
         </button>
       </header>
 
-      <main
-        id="main-content"
-        tabIndex={-1}
-        className={pageStyles.main}
-      >
+      <main id="main-content" tabIndex={-1} className={pageStyles.main}>
         <div className={pageStyles.content}>
-          <h1 style={{ fontSize: '22px', color: 'var(--text-h)', marginBottom: '4px', fontWeight: 700 }}>
-            {t("adminPanel")}
+          <h1
+            style={{
+              fontSize: '22px',
+              color: 'var(--text-h)',
+              marginBottom: '4px',
+              fontWeight: 700,
+            }}
+          >
+            {t('adminPanel')}
           </h1>
           <p style={{ fontSize: '13px', color: 'var(--text)', opacity: 0.6, marginBottom: '24px' }}>
-            {t("totalProfilesInfo", { count: profiles.length })}
+            {t('totalProfilesInfo', { count: profiles.length })}
           </p>
 
-          <ul aria-label={t("allProfiles")} style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+          <ul aria-label={t('allProfiles')} style={{ listStyle: 'none', padding: 0, margin: 0 }}>
             {profiles.map((p) => (
-              <li
-                key={p.name}
-                className={pageStyles.listItem}
-              >
+              <li key={p.name} className={pageStyles.listItem}>
                 <div className={pageStyles.listItemInfo}>
                   <span style={{ color: 'var(--text-h)', fontSize: '14px', fontWeight: 500 }}>
-                    {p.name}{p.name === currentUser ? ` (${t("you")})` : ''}
+                    {p.name}
+                    {p.name === currentUser ? ` (${t('you')})` : ''}
                   </span>
                   <span
                     style={{
@@ -69,7 +72,7 @@ export function AdminPage() {
                 {confirmDelete === p.name ? (
                   <div className={pageStyles.listItemActions}>
                     <button
-                      aria-label={t("cancelDeleteLabel", { name: p.name })}
+                      aria-label={t('cancelDeleteLabel', { name: p.name })}
                       style={{
                         color: 'var(--text)',
                         background: 'transparent',
@@ -82,10 +85,10 @@ export function AdminPage() {
                       }}
                       onClick={() => setConfirmDelete(null)}
                     >
-                      {t("cancel")}
+                      {t('cancel')}
                     </button>
                     <button
-                      aria-label={t("confirmDeleteLabel", { name: p.name })}
+                      aria-label={t('confirmDeleteLabel', { name: p.name })}
                       style={{
                         color: 'var(--danger)',
                         background: 'var(--danger-bg)',
@@ -96,15 +99,18 @@ export function AdminPage() {
                         cursor: 'pointer',
                         fontWeight: 500,
                       }}
-                      onClick={() => { removeProfile(p.name); setConfirmDelete(null) }}
+                      onClick={() => {
+                        removeProfile(p.name)
+                        setConfirmDelete(null)
+                      }}
                     >
-                      {t("confirmDelete")}
+                      {t('confirmDelete')}
                     </button>
                   </div>
                 ) : (
                   <div className={pageStyles.listItemActions}>
                     <button
-                      aria-label={t("deleteProfileLabel", { name: p.name })}
+                      aria-label={t('deleteProfileLabel', { name: p.name })}
                       disabled={p.name === currentUser}
                       style={{
                         color: p.name === currentUser ? 'var(--text-2)' : 'var(--danger)',
@@ -119,7 +125,7 @@ export function AdminPage() {
                       }}
                       onClick={() => setConfirmDelete(p.name)}
                     >
-                      {t("delete")}
+                      {t('delete')}
                     </button>
                   </div>
                 )}

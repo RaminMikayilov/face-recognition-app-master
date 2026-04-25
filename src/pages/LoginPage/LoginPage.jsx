@@ -9,7 +9,7 @@ import LanguageSelector from '../../components/LanguageSelector'
 export function LoginPage() {
   const { matcher, login } = useAuth()
   const navigate = useNavigate()
-  const {t} = useTranslation();
+  const { t } = useTranslation()
 
   const handleLogin = (name) => {
     login(name)
@@ -19,8 +19,8 @@ export function LoginPage() {
   return (
     <main id="main-content" className={styles.container}>
       <header className={styles.appHeader}>
-        <h1>{t("faceRecognition")}</h1>
-        <p>{t("authenticateWithFace")}</p>
+        <h1>{t('faceRecognition')}</h1>
+        <p>{t('authenticateWithFace')}</p>
         <div className={styles.actions}>
           <ThemeToggle />
           <LanguageSelector />
@@ -31,7 +31,7 @@ export function LoginPage() {
 
       <nav style={{ marginTop: '20px', textAlign: 'center' }}>
         <p>
-          {t("dontHaveProfile")} <Link to="/register">{t("registerHere")}</Link>
+          {t('dontHaveProfile')} <Link to="/register">{t('registerHere')}</Link>
         </p>
       </nav>
     </main>

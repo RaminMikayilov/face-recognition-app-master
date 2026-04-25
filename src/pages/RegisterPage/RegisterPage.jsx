@@ -9,7 +9,7 @@ import LanguageSelector from '../../components/LanguageSelector'
 export function RegisterPage() {
   const { register } = useAuth()
   const navigate = useNavigate()
-  const {t} = useTranslation();
+  const { t } = useTranslation()
 
   const handleRegister = async (name, descriptor) => {
     await register(name, descriptor)
@@ -19,8 +19,8 @@ export function RegisterPage() {
   return (
     <main id="main-content" className={styles.container}>
       <header className={styles.appHeader}>
-        <h1>{t("faceRecognition")}</h1>
-        <p>{t("authenticateWithFace")}</p>
+        <h1>{t('faceRecognition')}</h1>
+        <p>{t('authenticateWithFace')}</p>
         <div className={styles.actions}>
           <ThemeToggle />
           <LanguageSelector />
@@ -31,7 +31,7 @@ export function RegisterPage() {
 
       <nav style={{ marginTop: '20px', textAlign: 'center' }}>
         <p>
-          {t("alreadyHaveAccount")} <Link to="/login">{t("loginHere")}</Link>
+          {t('alreadyHaveAccount')} <Link to="/login">{t('loginHere')}</Link>
         </p>
       </nav>
     </main>

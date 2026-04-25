@@ -155,7 +155,7 @@
   }
   .welcomeText {
     font-size: 12px;
-    max-width: 100px;
+    max-width: calc(100% - 120px);
   }
   .btnAdmin,
   .btnLogout {

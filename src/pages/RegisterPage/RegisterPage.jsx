@@ -1,10 +1,10 @@
 import { Link, useNavigate } from 'react-router-dom'
-import { useAuth } from '../context/useAuth'
-import { RegisterFace } from '../components/RegisterFace'
-import styles from '../components/Layout.module.css'
+import { useAuth } from '../../context/useAuth'
+import { RegisterFace } from '../../components/RegisterFace'
+import styles from '../../components/Layout.module.css'
 import { useTranslation } from 'react-i18next'
-import ThemeToggle from '../components/ThemeToggle'
-import LanguageSelector from '../components/LanguageSelector'
+import ThemeToggle from '../../components/ThemeToggle'
+import LanguageSelector from '../../components/LanguageSelector'
 
 export function RegisterPage() {
   const { register } = useAuth()

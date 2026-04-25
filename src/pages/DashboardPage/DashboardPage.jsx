@@ -1,12 +1,12 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { useAuth } from '../context/useAuth'
-import { isNameTaken } from '../utils/profileStorage'
-import styles from '../components/Layout.module.css'
+import { useAuth } from '../../context/useAuth'
+import { isNameTaken } from '../../utils/profileStorage'
+import styles from '../../components/Layout.module.css'
 import pageStyles from './DashboardPage.module.css'
 import { useTranslation } from 'react-i18next'
-import LanguageSelector from '../components/LanguageSelector';
-import ThemeToggle from '../components/ThemeToggle';
+import LanguageSelector from '../../components/LanguageSelector';
+import ThemeToggle from '../../components/ThemeToggle';
 
 export function DashboardPage() {
   const { currentUser, currentRole, logout, profiles, removeProfile, renameProfile } = useAuth()

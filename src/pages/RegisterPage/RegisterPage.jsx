@@ -18,13 +18,16 @@ export function RegisterPage() {
 
   return (
     <main id="main-content" className={styles.container}>
-      <header className={styles.appHeader}>
-        <h1>{t('faceRecognition')}</h1>
-        <p>{t('authenticateWithFace')}</p>
-        <div className={styles.actions}>
+      <div className={styles.authTopBar}>
+        <div className={styles.bannerActions}>
           <ThemeToggle />
           <LanguageSelector />
         </div>
+      </div>
+
+      <header className={styles.appHeader}>
+        <h1>{t('faceRecognition')}</h1>
+        <p>{t('authenticateWithFace')}</p>
       </header>
 
       <RegisterFace onRegister={handleRegister} />

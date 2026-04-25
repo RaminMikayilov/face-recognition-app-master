@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { useAuth } from '../context/useAuth'
 import { isNameTaken } from '../utils/profileStorage'
 import styles from '../components/Layout.module.css'
+import pageStyles from './DashboardPage.module.css'
 import { useTranslation } from 'react-i18next'
 import LanguageSelector from '../components/LanguageSelector';
 import ThemeToggle from '../components/ThemeToggle';
@@ -41,7 +42,7 @@ export function DashboardPage() {
     <div style={{ width: '100%', minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
       <header className={styles.userBanner}>
         <span className={styles.welcomeText}>{t("loggedInAs")} {currentUser}</span>
-        <div className={styles.actions}>
+        <div className={styles.bannerActions}>
           <ThemeToggle />
           <LanguageSelector />
         </div>
@@ -58,45 +59,15 @@ export function DashboardPage() {
       <main
         id="main-content"
         tabIndex={-1}
-        style={{
-          flex: 1,
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          padding: '40px',
-          textAlign: 'center',
-          animation: 'fadeIn 0.5s ease-out',
-        }}
+        className={pageStyles.main}
       >
-        <div
-          style={{
-            background: 'var(--card-bg)',
-            border: '1px solid var(--border)',
-            borderRadius: '16px',
-            padding: '60px 40px',
-            maxWidth: '600px',
-            width: '100%',
-            boxShadow: `0 10px 30px var(--card-shadow)`,
-            position: 'relative',
-            overflow: 'hidden',
-          }}
-        >
+        <div className={pageStyles.card}>
           <div
+            className={pageStyles.verifiedBadge}
             style={{
-              position: 'absolute',
-              top: '20px',
-              right: '20px',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '6px',
-              padding: '6px 12px',
               background: 'var(--success-bg)',
               border: '1px solid var(--success-border)',
-              borderRadius: '20px',
               color: 'var(--success)',
-              fontSize: '12px',
-              fontWeight: '600',
             }}
           >
             <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
@@ -105,21 +76,18 @@ export function DashboardPage() {
             {t("faceIdVerified")}
           </div>
 
-          <h1 style={{ fontSize: '32px', marginBottom: '16px', color: 'var(--text-h)' }}>
+          <h1 className={pageStyles.cardTitle} style={{ color: 'var(--text-h)' }}>
             {t("welcomeUser")}, {currentUser}
           </h1>
-          <p style={{ color: 'var(--text)', fontSize: '18px', marginBottom: '32px' }}>
+          <p className={pageStyles.cardSubtitle} style={{ color: 'var(--text)' }}>
             {t("authSuccessMessage")}
           </p>
 
           <div
+            className={pageStyles.secureVault}
             style={{
-              marginTop: '40px',
-              padding: '24px',
               background: 'var(--success-bg)',
               border: '1px solid var(--success-border)',
-              borderRadius: '12px',
-              textAlign: 'left',
             }}
           >
             <h2
@@ -146,7 +114,7 @@ export function DashboardPage() {
           </div>
         </div>
 
-        <div style={{ maxWidth: '600px', width: '100%', marginTop: '24px', textAlign: 'left' }}>
+        <div className={pageStyles.profileSection}>
           <h2 style={{ fontSize: '15px', color: 'var(--text)', marginBottom: '2px', fontWeight: 600 }}>
             {t("yourProfile")}
           </h2>
@@ -155,21 +123,11 @@ export function DashboardPage() {
             {profiles.filter(p => p.name === currentUser).map((p) => (
               <li
                 key={p.name}
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                  padding: '12px 16px',
-                  background: 'var(--card-bg)',
-                  border: '1px solid var(--border)',
-                  borderRadius: '8px',
-                  marginBottom: '8px',
-                  gap: '8px',
-                }}
+                className={pageStyles.listItem}
               >
                 {editingName === p.name ? (
-                  <div style={{ display: 'flex', flexDirection: 'column', flex: 1, gap: '4px' }}>
-                    <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                  <div className={pageStyles.editContainer}>
+                    <div className={pageStyles.editRow}>
                       <input
                         autoFocus
                         value={editValue}
@@ -208,7 +166,7 @@ export function DashboardPage() {
                       {p.name}
                     </span>
                     {confirmDelete === p.name ? (
-                      <div style={{ display: 'flex', gap: '8px' }}>
+                      <div className={pageStyles.listItemActions}>
                         <button
                           aria-label={t("cancelDeleteLabel", { name: p.name })}
                           style={{ color: 'var(--text)', background: 'transparent', border: '1px solid var(--border)', borderRadius: '6px', padding: '5px 12px', fontSize: '13px', cursor: 'pointer', fontWeight: 500 }}
@@ -225,7 +183,7 @@ export function DashboardPage() {
                         </button>
                       </div>
                     ) : (
-                      <div style={{ display: 'flex', gap: '8px' }}>
+                      <div className={pageStyles.listItemActions}>
                         <button
                           aria-label={t("editProfile")}
                           style={{ color: 'var(--accent)', background: 'var(--accent-bg)', border: '1px solid var(--accent)', borderRadius: '6px', padding: '5px 12px', fontSize: '13px', cursor: 'pointer', fontWeight: 500 }}

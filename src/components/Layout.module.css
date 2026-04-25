@@ -84,6 +84,13 @@
   padding: 1rem;
 }
 
+.bannerActions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-shrink: 0;
+}
+
 .tabs {
   display: flex;
   gap: 0;
@@ -113,11 +120,12 @@
 }
 
 .userBanner {
-  width: calc(100% - 58px);
+  width: 100%;
+  box-sizing: border-box;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 1rem 2rem;
+  gap: 8px;
+  padding: 0.75rem 1.25rem;
   background: var(--accent-bg);
   border-bottom: 1px solid var(--border);
 }
@@ -126,6 +134,34 @@
   font-size: 14px;
   color: var(--text-h);
   font-weight: 500;
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@media (max-width: 768px) {
+  .userBanner {
+    padding: 0.625rem 1rem;
+    gap: 6px;
+  }
+}
+
+@media (max-width: 480px) {
+  .userBanner {
+    padding: 0.5rem 0.75rem;
+    gap: 4px;
+  }
+  .welcomeText {
+    font-size: 12px;
+    max-width: 100px;
+  }
+  .btnAdmin,
+  .btnLogout {
+    font-size: 12px;
+    padding: 4px 10px;
+  }
 }
 
 .btnAdmin {

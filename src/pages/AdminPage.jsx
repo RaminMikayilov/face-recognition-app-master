@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useAuth } from '../context/useAuth'
 import styles from '../components/Layout.module.css'
+import pageStyles from './AdminPage.module.css'
 import { useTranslation } from 'react-i18next'
 import ThemeToggle from '../components/ThemeToggle'
 import LanguageSelector from '../components/LanguageSelector'
@@ -15,7 +16,7 @@ export function AdminPage() {
     <div style={{ width: '100%', minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
       <header className={styles.userBanner}>
         <span className={styles.welcomeText}>{t("loggedInAs")} {currentUser}</span>
-        <div className={styles.actions}>
+        <div className={styles.bannerActions}>
           <ThemeToggle />
           <LanguageSelector />
         </div>
@@ -30,15 +31,9 @@ export function AdminPage() {
       <main
         id="main-content"
         tabIndex={-1}
-        style={{
-          flex: 1,
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          padding: '40px',
-        }}
+        className={pageStyles.main}
       >
-        <div style={{ maxWidth: '640px', width: '100%' }}>
+        <div className={pageStyles.content}>
           <h1 style={{ fontSize: '22px', color: 'var(--text-h)', marginBottom: '4px', fontWeight: 700 }}>
             {t("adminPanel")}
           </h1>
@@ -50,18 +45,9 @@ export function AdminPage() {
             {profiles.map((p) => (
               <li
                 key={p.name}
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                  padding: '12px 16px',
-                  background: 'var(--card-bg)',
-                  border: '1px solid var(--border)',
-                  borderRadius: '8px',
-                  marginBottom: '8px',
-                }}
+                className={pageStyles.listItem}
               >
-                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                <div className={pageStyles.listItemInfo}>
                   <span style={{ color: 'var(--text-h)', fontSize: '14px', fontWeight: 500 }}>
                     {p.name}{p.name === currentUser ? ` (${t("you")})` : ''}
                   </span>
@@ -81,7 +67,7 @@ export function AdminPage() {
                 </div>
 
                 {confirmDelete === p.name ? (
-                  <div style={{ display: 'flex', gap: '8px' }}>
+                  <div className={pageStyles.listItemActions}>
                     <button
                       aria-label={t("cancelDeleteLabel", { name: p.name })}
                       style={{
@@ -116,24 +102,26 @@ export function AdminPage() {
                     </button>
                   </div>
                 ) : (
-                  <button
-                    aria-label={t("deleteProfileLabel", { name: p.name })}
-                    disabled={p.name === currentUser}
-                    style={{
-                      color: p.name === currentUser ? 'var(--text-2)' : 'var(--danger)',
-                      background: p.name === currentUser ? 'transparent' : 'var(--danger-bg)',
-                      border: `1px solid ${p.name === currentUser ? 'var(--border)' : 'var(--danger-border)'}`,
-                      borderRadius: '6px',
-                      padding: '5px 12px',
-                      fontSize: '13px',
-                      cursor: p.name === currentUser ? 'not-allowed' : 'pointer',
-                      fontWeight: 500,
-                      opacity: p.name === currentUser ? 0.5 : 1,
-                    }}
-                    onClick={() => setConfirmDelete(p.name)}
-                  >
-                    {t("delete")}
-                  </button>
+                  <div className={pageStyles.listItemActions}>
+                    <button
+                      aria-label={t("deleteProfileLabel", { name: p.name })}
+                      disabled={p.name === currentUser}
+                      style={{
+                        color: p.name === currentUser ? 'var(--text-2)' : 'var(--danger)',
+                        background: p.name === currentUser ? 'transparent' : 'var(--danger-bg)',
+                        border: `1px solid ${p.name === currentUser ? 'var(--border)' : 'var(--danger-border)'}`,
+                        borderRadius: '6px',
+                        padding: '5px 12px',
+                        fontSize: '13px',
+                        cursor: p.name === currentUser ? 'not-allowed' : 'pointer',
+                        fontWeight: 500,
+                        opacity: p.name === currentUser ? 0.5 : 1,
+                      }}
+                      onClick={() => setConfirmDelete(p.name)}
+                    >
+                      {t("delete")}
+                    </button>
+                  </div>
                 )}
               </li>
             ))}

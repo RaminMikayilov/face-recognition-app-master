@@ -42,7 +42,8 @@ export function DashboardPage() {
     <div style={{ width: '100%', minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
       <header className={styles.userBanner}>
         <span className={styles.welcomeText}>
-          {t('loggedInAs')} {currentUser}
+          <span className={styles.welcomeLabel}>{t('loggedInAs')} </span>
+          <span className={styles.welcomeName}>{currentUser}</span>
         </span>
         {currentRole === 'admin' && (
           <Link to="/admin" className={styles.btnAdmin}>

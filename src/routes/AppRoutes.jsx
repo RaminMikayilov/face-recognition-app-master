@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { useAuth } from '../context/useAuth'
 import { AUTH_STATE } from '../context/authState'
 import { ProtectedRoute } from '../components/ProtectedRoute'
@@ -19,10 +20,12 @@ function RootRedirect() {
 }
 
 export function AppRoutes() {
+  const { t } = useTranslation()
+
   return (
     <Router>
       <a className="skip-link" href="#main-content">
-        Skip to main content
+        {t('skipToMainContent')}
       </a>
       <Routes>
         <Route path="/login" element={<LoginPage />} />

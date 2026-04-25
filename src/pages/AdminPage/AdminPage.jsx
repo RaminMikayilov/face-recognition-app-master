@@ -18,16 +18,16 @@ export function AdminPage() {
         <span className={styles.welcomeText}>
           {t('loggedInAs')} {currentUser}
         </span>
-        <div className={styles.bannerActions}>
-          <ThemeToggle />
-          <LanguageSelector />
-        </div>
         <Link to="/dashboard" className={styles.btnAdmin}>
           {t('dashboard')}
         </Link>
         <button className={styles.btnLogout} onClick={logout}>
           {t('logOut')}
         </button>
+        <div className={styles.bannerActions}>
+          <ThemeToggle />
+          <LanguageSelector />
+        </div>
       </header>
 
       <main id="main-content" tabIndex={-1} className={pageStyles.main}>

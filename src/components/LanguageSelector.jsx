@@ -3,7 +3,7 @@ import { useState, useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import azFlag from '../assets/az.png'
 import gbFlag from '../assets/gb.png'
-import ruFlag from '../assets/ru.png'
+import ruFlag from '../assets/ru.svg'
 
 const languages = [
   { code: 'az', label: 'AZ', flag: azFlag },

@@ -2,6 +2,7 @@ import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import en from './locales/en.json';
 import az from './locales/az.json';
+import ru from './locales/ru.json';
 
 
 // əgər tərcümə mətnində dinamik value istifadə etmək istərsəniz aşağıda nümunə yazıram. bunu müvafiq tərcümə sənədinə əlavə edin 
@@ -14,6 +15,7 @@ i18n
         resources: {
             en: { translation: en },
             az: { translation: az },
+            ru: { translation: ru },
         },
         lng: 'az',
         fallbackLng: 'az',

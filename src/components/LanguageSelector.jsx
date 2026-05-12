@@ -3,10 +3,12 @@ import { useState, useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import azFlag from '../assets/az.png'
 import gbFlag from '../assets/gb.png'
+import ruFlag from '../assets/ru.png'
 
 const languages = [
   { code: 'az', label: 'AZ', flag: azFlag },
   { code: 'en', label: 'EN', flag: gbFlag },
+  { code: 'ru', label: 'RU', flag: ruFlag },
 ]
 
 export default function LanguageSelector() {
